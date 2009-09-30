@@ -1,0 +1,13 @@
+<?php
+// MySQL connection
+define('MYSQL_HOST', 'localhost');
+define('MYSQL_USER', 'root');
+define('MYSQL_PASSWORD', '');
+define('MYSQL_DATABASE', 'casimir');
+
+// use mod_rewrite?
+define('USE_REWRITE', false);
+
+// restrict access?
+define('ACCESS_KEY', '');
+?>

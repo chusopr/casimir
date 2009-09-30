@@ -1,0 +1,54 @@
+@CHARSET "UTF-8";
+
+body {
+  font-family: Optima, "Trebuchet MS", Lucida, Arial, Geneva, Verdana, "Lucida Grande", Tahoma, Helvetica, sans-serif;
+  font-size: 1em;
+}
+
+#main {
+  margin: 0 auto;
+  width: 750px;
+}
+
+h1 {
+	font-family: "Hoefler Text", "Bookman Antiqua", Palatino, "Utopia", "Times New Roman", Times, "New Century Schoolbook",  Georgia, "New York", serif;
+	font-size: 2em;
+}
+
+dt {
+	margin-top: 1em;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
+}
+
+.center {
+	text-align: center;
+}
+
+#footer {
+	margin: 1em 0;
+	border-top: 1px dotted #666;
+  border-bottom: 1px dotted #666;
+	font-size: 0.8em;
+}
+
+#bookmarklet {
+  float: right;
+}
+
+#bookmarklet a {
+	padding: 2px 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	background-color: #bbb;
+	border-top: solid 2px #ccc;
+  border-right: solid 2px #aaa;
+  border-bottom: solid 2px #aaa;
+  border-left: solid 2px #ccc;
+}
