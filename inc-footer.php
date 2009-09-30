@@ -4,7 +4,8 @@
       </p>
 	    <p>
 	      <a href="<?php echo $casimir->base_url; ?>">Home</a> |
-        <a href="<?php echo $casimir->base_url; ?>stats.php">Stats</a>
+        <a href="<?php echo $casimir->base_url; ?>stats.php">Stats</a> |
+	<a href="http://wiki.github.com/nhoizey/casimir">about</a>
       </p>
     </div>
 		<script type="text/javascript"><!--
