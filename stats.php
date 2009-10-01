@@ -1,5 +1,5 @@
 <?php
-require_once 'casimir-conf.php';
+require_once 'user-casimir-conf.php';
 require_once 'Casimir.php';
 
 $casimir = new Casimir();
