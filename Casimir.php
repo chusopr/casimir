@@ -9,7 +9,9 @@ class Casimir {
 	function __construct() {
     mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD) or die('Could not connect to database');
     mysql_select_db(MYSQL_DATABASE) or die('Could not select database');
-    $this->base_url = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/';
+    $current_dir = dirname($_SERVER['PHP_SELF']);
+    if ($current_dir == '/') $current_dir = '';
+    $this->base_url = 'http://'.$_SERVER['SERVER_NAME'].$current_dir.'/';
     $this->short = '';
     $this->msg = '';
     $this->ok = true;
