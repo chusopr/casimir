@@ -3,7 +3,7 @@
 <html>
 
 <head>
-	<title>Casimir - short URL creation</title>
+	<title>Casimir - Yet Another URL Shortener</title>
 	<link rel="stylesheet" type="text/css" media="screen" href="screen.css" />
 </head>
 
