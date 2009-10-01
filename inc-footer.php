@@ -5,7 +5,7 @@
       <p>
         <a href="<?php echo $casimir->base_url; ?>">Home</a> |
         <a href="<?php echo $casimir->base_url; ?>stats.php">Stats</a> |
-        <a href="http://cas.im/ir/">About</a>
+        <a href="http://wiki.github.com/nhoizey/casimir">About</a>
       </p>
     </div>
     <?php
