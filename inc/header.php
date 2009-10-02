@@ -5,11 +5,16 @@
 <head>
 	<title>Casimir - Yet Another URL Shortener</title>
 	<link rel="stylesheet" type="text/css" media="screen" href="screen.css" />
+  <?php
+  if (file_exists('user/screen.css')) {
+  	echo '<link rel="stylesheet" type="text/css" media="screen" href="user/screen.css" />';
+  }
+  ?>
+  <link rel="icon" type="image/png" href="img/casimir.png" />
 </head>
 
 <body onload="document.getElementById('long').focus();">
 	<div id="main">
-    <div id="bookmarklet">Drag this bookmarklet into your toolbar: <?php $casimir->showBookmarklet(); ?></div>
 		<h1><a href="<?php echo $casimir->base_url; ?>">Casimir</a></h1>
 		<h2>Yet Another URL Shortener</h2>
 		

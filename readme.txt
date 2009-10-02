@@ -9,8 +9,10 @@
     PRIMARY KEY  (`short_url`)
   ) ENGINE=MyISAM DEFAULT CHARSET=utf8
 
-2. Copy "user-casimir-conf.php.example" to "user-casimir-conf.php" and edit the configuration settings
+2. Copy "user/casimir-conf.php.example" to "user/casimir-conf.php" and edit the configuration settings
 
 3. Rename "htaccess" to ".htaccess" according to your settings
 
-4. Optionnaly, you can add a "user-footer.php" script that will be added after Casimir's footer
+4. Optionnaly, you can add
+   - a "user/footer.php" script that will be added after Casimir's footer
+   - a "user/screen.css" stylesheet that will be loaded after Casimir's one

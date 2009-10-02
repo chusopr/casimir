@@ -1,5 +1,6 @@
 *~
 .htaccess
 .DS_Store
-user-*
+user/*
+!user/*.example
 *.esproj
