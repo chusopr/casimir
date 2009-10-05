@@ -1,0 +1,43 @@
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns="http://usefulinc.com/ns/doap#"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/">
+
+<Project>
+  <name>Casimir</name>
+  <homepage rdf:resource="http://cas.im/ir/"/>
+  <created>2009-09-30</created>
+
+  <shortname>Casimir</shortname>
+
+  <shortdesc xml:lang="en">Yet Another URL Shortener/Shrinker</shortdesc> 
+
+  <description xml:lang="en">Casimir is a simple to install and use URL shortener, that let the user set the short URL he wants. It only needs PHP and MySQL to run.</description>
+
+  <wiki rdf:resource="http://wiki.github.com/nhoizey/casimir" />
+
+  <wiki
+    rdf:resource="http://wiki.github.com/nhoizey/casimir/wikis.atom"
+    dc:format="application/rdf+xml"
+  />
+
+  <repository>
+    <SVNRepository>
+      <location rdf:resource="http://svn.apache.org/repos/asf/labs/Foo/" />
+      <browse rdf:resource="http://svn.apache.org/viewvc/labs/Foo/" />
+    </SVNRepository>
+  </repository>
+
+  <bug-database rdf:resource="http://github.com/nhoizey/casimir/issues" />
+
+  <license rdf:resource="http://github.com/nhoizey/casimir/blob/master/license.txt" />
+
+  <programming-language>PHP</programming-language>
+
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Nicolas Hoizey</foaf:name>
+      <foaf:homepage rdf:resource=http://www.gasteroprod.com/" />
+    </foaf:Person>
+  </maintainer>
+</Project>
+</rdf:RDF>
