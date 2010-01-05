@@ -182,6 +182,8 @@ class Casimir {
   }
   
   function updateUses($short) {
+    $query = "INSERT INTO casimir_stats (short_url, use_date) VALUES ('".trim(mysql_escape_string($short))."', NOW())";
+    mysql_query($query);
     $query = "UPDATE casimir SET last_use_date=NOW(), uses=uses+1 WHERE short_url='".trim(mysql_escape_string($short))."'";
     return mysql_query($query);
   }
