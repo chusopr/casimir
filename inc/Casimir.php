@@ -16,6 +16,11 @@ class Casimir {
     $this->msg = '';
     $this->ok = true;
     $this->access_key = '';
+    if (isset($_GET['access_key'])) {
+      $this->access_key = $_GET['access_key'];
+    } elseif (isset($_POST['access_key'])) {
+      $this->access_key = $_POST['access_key'];
+    }
 	}
 
   function handleRequest() {
@@ -34,13 +39,6 @@ class Casimir {
 		    $this->ok = false;
 		    $this->msg = 'Sorry, but this short URL isn\'t in our database.';
 		  }
-		}
-		
-		$this->access_key = '';
-		if (isset($_GET['access_key'])) {
-		  $this->access_key = $_GET['access_key'];
-		} elseif (isset($_POST['access_key'])) {
-		  $this->access_key = $_POST['access_key'];
 		}
 		
 		if (defined('ACCESS_KEY') && ACCESS_KEY != '' && ACCESS_KEY != $this->access_key) {
@@ -82,7 +80,7 @@ class Casimir {
 
   function showBookmarklet() {
   	?>
-  	<a href="javascript:var url='<?php echo $this->base_url; ?>?<?php if (defined('ACCESS_KEY') && ACCESS_KEY != '' && ACCESS_KEY == $this->access_key) { echo 'access_key='.ACCESS_KEY.'&'; } ?>long='+encodeURIComponent(location.href);var short=prompt('Do you want to define your own short URL? (leave empty if you don\'t)','');if(short!=''){url=url+'&short='+short;}location.href=url;">+Casimir</a>
+  	<a href="javascript:var url='<?php echo $this->base_url; ?>?<?php if (defined('ACCESS_KEY') && ACCESS_KEY != '' && ACCESS_KEY == $this->access_key) { echo 'access_key='.ACCESS_KEY.'&'; } ?>long='+encodeURIComponent(location.host=='maps.google.com'?document.getElementById('link').href:location.href);var short=prompt('Do you want to define your own short URL? (leave empty if you don\'t)','');if(short!=''){url=url+'&short='+short;}location.href=url;">+Casimir</a>
   	<?php
   }
   
