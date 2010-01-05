@@ -1,5 +1,6 @@
 <?php
 class Casimir {
+  public $version;
 	public $base_url;
 	public $short;
 	public $msg;
@@ -7,6 +8,7 @@ class Casimir {
 	public $access_key;
 
 	function __construct() {
+	  $this->version = '1.1';
     mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD) or die('Could not connect to database');
     mysql_select_db(MYSQL_DATABASE) or die('Could not select database');
     $current_dir = dirname($_SERVER['PHP_SELF']);
