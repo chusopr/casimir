@@ -7,6 +7,10 @@ $casimir = new Casimir();
 require_once 'inc/header.php';
 ?>
 <h3>Most followed short URLs</h3>
+<h4>Last 24 hours</h4>
+<?php
+echo $casimir->getMostUsedLastDays(1);
+?>
 <h4>Last 7 days</h4>
 <?php
 echo $casimir->getMostUsedLastDays(7);

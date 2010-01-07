@@ -188,8 +188,8 @@ class Casimir {
     return mysql_query($query);
   }
   	
-  function getMostUsedSinceDate($since = '1970-01-01 00:00:01') {
-    $query = "SELECT s.short_url, COUNT(*) AS uses, c.long_url FROM casimir_stats s, casimir c WHERE s.short_url = c.short_url AND use_date >= '".mysql_escape_string($since)."' GROUP BY s.short_url ORDER BY uses DESC LIMIT 0,10";
+  function getMostUsedSinceDate($since = '1970-01-01 00:00:01', $nb = 10) {
+    $query = "SELECT s.short_url, COUNT(*) AS uses, c.long_url FROM casimir_stats s, casimir c WHERE s.short_url = c.short_url AND use_date >= '".mysql_escape_string($since)."' GROUP BY s.short_url ORDER BY uses DESC LIMIT 0,".max(1,intval($nb));
     if ($res = mysql_query($query)) {
 	    $list = '<dl>';
 	    while ($url = mysql_fetch_assoc($res)) {
@@ -203,8 +203,8 @@ class Casimir {
     }
   }
 
-  function getMostUsedLastDays($days = 7) {
-    return $this->getMostUsedSinceDate(date("Y-m-d H:i:s", time() - $days * 24*60*60));
+  function getMostUsedLastDays($days = 7, $nb = 10) {
+    return $this->getMostUsedSinceDate(date("Y-m-d H:i:s", time() - $days * 24*60*60), $nb);
   }
   
 }
