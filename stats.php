@@ -9,15 +9,15 @@ require_once 'inc/header.php';
 <h3>Most followed short URLs</h3>
 <h4>Last 24 hours</h4>
 <?php
-echo $casimir->getMostUsedLastDays(1);
+echo $casimir->getMostUsedLastDays(1, 5);
 ?>
 <h4>Last 7 days</h4>
 <?php
-echo $casimir->getMostUsedLastDays(7);
+echo $casimir->getMostUsedLastDays(7, 5);
 ?>
 <h4>Last 30 days</h4>
 <?php
-echo $casimir->getMostUsedLastDays(30);
+echo $casimir->getMostUsedLastDays(30, 5);
 ?>
 <h4>Since the begining</h4>
 <?php
