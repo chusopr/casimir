@@ -143,7 +143,8 @@ class Casimir {
 	      }
     		break;
     	case ($short != '' && $existing_long && $long == $existing_long):
-        return array(true, $short, 'This short URL already exists and is associated with the same long URL.');
+    	  $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
+        return array(true, $short, 'This short URL already exists and is associated with the same long URL: <a href="'.$short_url.'">'.$short_url.'</a>.');
     		break;
     	case ($short != '' && $existing_long && $existing_long != $long):
         return array(false, $short, 'This short URL already exists and is associated with this other long URL: <a href="'.$existing_long.'">'.$existing_long.'</a>.');
