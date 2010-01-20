@@ -1,3 +1,8 @@
+=== Cas.im/ir v1.2 (2010/01/20) ===
+
+- FIXED: handle empty short creation with bookmarklet
+- FIXED: readme.txt
+
 === Cas.im/ir v1.1 (2010/01/05) ===
 
 - NEW: daily, weekly, and monthly statistics
@@ -9,5 +14,4 @@ If you don't have it yet, create this table in your MySQL database:
     `short_url` varchar(50) NOT NULL default '',
     `use_date` timestamp NOT NULL default '0000-00-00 00:00:00'
   ) ENGINE=MyISAM DEFAULT CHARSET=utf8
-
 

@@ -46,11 +46,11 @@ class Casimir {
 		if (defined('ACCESS_KEY') && ACCESS_KEY != '' && ACCESS_KEY != $this->access_key) {
 		  $this->ok = false;
 		  $this->msg = 'This Casimir instance is protected, you need an access key!';
-		} else {  
+		} else {
 		  if (isset($_POST['long'])) {
-		    list($this->ok, $this->short, $this->msg) = $this->addUrl($_POST['long'], $_POST['short']); 
+		    list($this->ok, $this->short, $this->msg) = $this->addUrl($_POST['long'], isset($_POST['short']) && !is_null($_POST['short']) && $_POST['short'] != 'null' ? $_POST['short'] : ''); 
 		  } elseif (isset($_GET['long'])) {
-		    list($this->ok, $this->short, $this->msg) = $this->addUrl($_GET['long'], $_GET['short']); 
+		    list($this->ok, $this->short, $this->msg) = $this->addUrl($_GET['long'], isset($_GET['short']) && !is_null($_GET['short']) && $_GET['short'] != 'null' ? $_GET['short'] : ''); 
 		  }
 		}
   }
@@ -125,7 +125,6 @@ class Casimir {
     	}
     }
     $existing_long = $this->getLong($short);
-    //echo '<ul><li>short: '.$short.'</li><li>long: '.$long.'</li><li>existing short: '.$existing_short.'</li><li>existing long: '.$existing_long.'</li></ul>';
     switch(true) {
     	case ($short == '' && $existing_short):
     		$short = $existing_short;

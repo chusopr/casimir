@@ -1,4 +1,4 @@
-1. Create this table in your MySQL database:
+1. Create these tables in your MySQL database:
 
   CREATE TABLE `casimir` (
     `short_url` varchar(50) NOT NULL default '',
@@ -7,6 +7,11 @@
     `last_use_date` timestamp NOT NULL default '0000-00-00 00:00:00',
     `uses` int(11) unsigned NOT NULL default '0',
     PRIMARY KEY  (`short_url`)
+  ) ENGINE=MyISAM DEFAULT CHARSET=utf8
+
+  CREATE TABLE `casimir_stats` (
+    `short_url` varchar(50) NOT NULL default '',
+    `use_date` timestamp NOT NULL default '0000-00-00 00:00:00'
   ) ENGINE=MyISAM DEFAULT CHARSET=utf8
 
 2. Copy "user/casimir-conf.php.example" to "user/casimir-conf.php" and edit the configuration settings
