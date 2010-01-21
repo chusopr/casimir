@@ -194,7 +194,7 @@ class Casimir {
 	    $list = '<dl>';
 	    while ($url = mysql_fetch_assoc($res)) {
 	    	$list .= '<dt><a href="'.$url['short_url'].'">'.$url['short_url'].'</a> visited '.$url['uses'].' time(s)</dt>';
-        $list .= '<dd><a href="'.$url['long_url'].'">'.$url['long_url'].'</a></dt>';
+        $list .= '<dd><a href="'.$url['long_url'].'">'.htmlspecialchars($url['long_url']).'</a></dt>';
 	    }
 	    $list .= '</dl>';
       return $list;
