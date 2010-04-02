@@ -13,29 +13,31 @@ require_once 'inc/header.php';
   <li><a href="#lastmonth">Last month</a></li>
   <li><a href="#ever">Ever</a></li>
 </ul>
-<div id="lastday" class="tab">
-  <h4>Last day</h4>
-  <?php
-  echo $casimir->getMostUsedLastDays(1, 5);
-  ?>
-</div>
-<div id="lastweek" class="tab">
-  <h4>Last week</h4>
-  <?php
-  echo $casimir->getMostUsedLastDays(7, 5);
-  ?>
-</div>
-<div id="lastmonth" class="tab">
-  <h4>Last month</h4>
-  <?php
-  echo $casimir->getMostUsedLastDays(30, 5);
-  ?>
-</div>
-<div id="ever" class="tab">
-  <h4>Ever</h4>
-  <?php
-  echo $casimir->getMostUsedSinceDate();
-  ?>
+<div class="tabs">
+  <div id="lastday">
+    <h4>Last day</h4>
+    <?php
+    echo $casimir->getMostUsedLastDays(1, 5);
+    ?>
+  </div>
+  <div id="lastweek">
+    <h4>Last week</h4>
+    <?php
+    echo $casimir->getMostUsedLastDays(7, 5);
+    ?>
+  </div>
+  <div id="lastmonth">
+    <h4>Last month</h4>
+    <?php
+    echo $casimir->getMostUsedLastDays(30, 5);
+    ?>
+  </div>
+  <div id="ever">
+    <h4>Ever</h4>
+    <?php
+    echo $casimir->getMostUsedSinceDate();
+    ?>
+  </div>
 </div>
 
 <?php

@@ -56,11 +56,15 @@ dt {
     padding: 0 1em;
   }
 
-.tab {
+.tabs {
+  
+}
+
+.tabs div {
   display:none;
 }
 
-.tab:target {
+.tabs div:target {
   display:block;
 }
 
