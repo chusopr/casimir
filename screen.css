@@ -46,6 +46,25 @@ dt {
 	text-align: center;
 }
 
+.tablinks {
+  list-style: none;
+  padding-left: 0;
+}
+
+  .tablinks li {
+    display: inline;
+    padding: 0 1em;
+  }
+
+.tab {
+  display:none;
+}
+
+.tab:target {
+  display:block;
+}
+
+
 #footer {
 	margin: 1em 0;
 	border-top: 1px dotted #666;
