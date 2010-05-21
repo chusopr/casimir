@@ -3,16 +3,31 @@ require_once 'user/casimir-conf.php';
 require_once 'inc/Casimir.php';
 $casimir = new Casimir();
 $casimir->handleRequest();
-header('Content-type: application/xml; charset=UTF-8');
-echo '<'.'?xml version="1.0" encoding="UTF-8"?'.'>';
+if (!isset($_GET['format']) || !in_array($_GET['format'], array('text', 'xml')) {
+  $format = 'xml';
+} else {
+  $format = $_GET['format'];
+}
+switch($format) {
+  case 'text':
+    if ($casimir->ok) {
+    	echo $casimir->base_url.(USE_REWRITE ? '' : '?').$casimir->short;
+    } else {
+      echo 'Error: '.$casimir->msg;
+    }
+    break;
+  case 'xml':
+    header('Content-type: application/xml; charset=UTF-8');
+    echo '<'.'?xml version="1.0" encoding="UTF-8"?'.'>'."\n";
+    echo '<casimir stat="'.($casimir->ok ? 'ok' : 'error').'">';
+    if ($casimir->msg != '') {
+      echo '<msg>'.$casimir->msg.'</msg>';
+    }
+    if ($casimir->ok) {
+    	echo '<short>'.$casimir->base_url.(USE_REWRITE ? '' : '?').$casimir->short.'</short>';
+    }
+    ?>
+    echo '</casimir>';
+    break;
+}
 ?>
-<casimir stat="<?php echo ($casimir->ok ? 'ok' : 'error'); ?>">
-  <?php
-  if ($casimir->msg != '') {
-    echo '<msg>'.$casimir->msg.'</msg>';
-  }
-  if ($casimir->ok) {
-  	echo '<short>'.$casimir->base_url.(USE_REWRITE ? '' : '?').$casimir->short.'</short>';
-  }
-  ?>
-</casimir>
