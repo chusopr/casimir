@@ -10,6 +10,7 @@ if (!isset($_GET['format']) || !in_array($_GET['format'], array('text', 'xml')) 
 }
 switch($format) {
   case 'text':
+    header('Content-type: text/plain; charset=UTF-8');
     if ($casimir->ok) {
     	echo $casimir->base_url.(USE_REWRITE ? '' : '?').$casimir->short;
     } else {
