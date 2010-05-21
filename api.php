@@ -3,7 +3,7 @@ require_once 'user/casimir-conf.php';
 require_once 'inc/Casimir.php';
 $casimir = new Casimir();
 $casimir->handleRequest();
-if (!isset($_GET['format']) || !in_array($_GET['format'], array('text', 'xml')) {
+if (!isset($_GET['format']) || !in_array($_GET['format'], array('text', 'xml'))) {
   $format = 'xml';
 } else {
   $format = $_GET['format'];
@@ -27,7 +27,6 @@ switch($format) {
     if ($casimir->ok) {
     	echo '<short>'.$casimir->base_url.(USE_REWRITE ? '' : '?').$casimir->short.'</short>';
     }
-    ?>
     echo '</casimir>';
     break;
 }
