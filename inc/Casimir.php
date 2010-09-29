@@ -70,9 +70,9 @@ class Casimir {
       ?>
       <dl>
         <dt><label for="long">Enter a long URL:</label></dt>
-        <dd><input type="text" name="long" id="long" size="80" value="<?php echo ($this->ok ? '' : (isset($_POST['long']) ? $_POST['long'] : $_GET['long'])); ?>" /></dd>
+        <dd><input type="text" name="long" id="long" size="80" value="<?php echo ($this->ok ? '' : (isset($_POST['long']) ? $_POST['long'] : (isset($_GET['long']) ? $_GET['long'] : ''))); ?>" /></dd>
         <dt><label for="short">Optionally, define your own short URL:</label></dt>
-        <dd><?php echo $this->base_url.(USE_REWRITE ? '' : '?'); ?><input type="text" name="short" id="short" size="20" maxlength="255" value="<?php echo ($this->ok ? '' : (isset($_POST['short']) ? $_POST['short'] : $_GET['short'])); ?>" /></dd>
+        <dd><?php echo $this->base_url.(USE_REWRITE ? '' : '?'); ?><input type="text" name="short" id="short" size="20" maxlength="255" value="<?php echo ($this->ok ? '' : (isset($_POST['short']) ? $_POST['short'] : (isset($_GET['short']) ? $_GET['short'] : ''))); ?>" /></dd>
         <dt></dt>
         <dd class="center"><input type="submit" name="submit" id="submit" value="Create!" /></dd>
       </dl>
