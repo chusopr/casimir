@@ -129,30 +129,30 @@ class Casimir {
     	case ($short == '' && $existing_short):
     		$short = $existing_short;
         $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
-        return array(true, $short, 'A short URL already exists for this long URL: <a href="'.$short_url.'">'.$short_url.'</a>.');
+        return array(true, $short, 'A short URL already exists for this long URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
     		break;
     	case ($short == '' && !$existing_short):
 	      $short = $this->getRandomShort();
 	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date) VALUES ("'.$short.'", "'.$long.'", NOW())';
 	      if (mysql_query($query)) {
 	        $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
-	        return array(true, $short, 'Congratulations, you created this new short URL: <a href="'.$short_url.'">'.$short_url.'</a>.');
+	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
 	      } else {
 	        return array(false, $short, 'Something went wrong: '.mysql_error());
 	      }
     		break;
     	case ($short != '' && $existing_long && $long == $existing_long):
     	  $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
-        return array(true, $short, 'This short URL already exists and is associated with the same long URL: <a href="'.$short_url.'">'.$short_url.'</a>.');
+        return array(true, $short, 'This short URL already exists and is associated with the same long URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
     		break;
     	case ($short != '' && $existing_long && $existing_long != $long):
-        return array(false, $short, 'This short URL already exists and is associated with this other long URL: <a href="'.$existing_long.'">'.$existing_long.'</a>.');
+        return array(false, $short, 'This short URL already exists and is associated with this other long URL:<br /><a href="'.$existing_long.'">'.$existing_long.'</a>');
     		break;
     	case ($short != '' && !$existing_short):
         $query = 'INSERT INTO casimir (short_url, long_url, creation_date) VALUES ("'.$short.'", "'.$long.'", NOW())';
         if (mysql_query($query)) {
           $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
-          return array(true, $short, 'Congratulations, you created this new short URL: <a href="'.$short_url.'">'.$short_url.'</a>.');
+          return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
         } else {
           return array(false, $short, 'Something went wrong: '.mysql_error());
         }
@@ -162,7 +162,7 @@ class Casimir {
         $query = 'INSERT INTO casimir (short_url, long_url, creation_date) VALUES ("'.$short.'", "'.$long.'", NOW())';
         if (mysql_query($query)) {
           $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
-          return array(true, $short, 'Congratulations, you created this new short URL: <a href="'.$short_url.'">'.$short_url.'</a>.');
+          return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
         } else {
           return array(false, $short, 'Something went wrong: '.mysql_error());
         }
