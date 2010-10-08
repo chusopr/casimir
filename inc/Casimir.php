@@ -114,6 +114,8 @@ class Casimir {
       return array(false, '', 'You must at least enter a long URL!');
     } elseif (!ereg("^https?://", $long)) {
       return array(false, '', 'Your URL must start with either "http://" or "https://"!');
+    } elseif (substr($long, 0, strlen($this->base_url) - 1) == $this->base_url) {
+      return array(false, '', 'This is already a shorten URL!');
     }
     $existing_short = $this->getShort($long);
     $short = trim(mysql_escape_string($short));
