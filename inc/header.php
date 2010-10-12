@@ -3,7 +3,7 @@
 <html>
 
 <head>
-	<title>Cas.im/ir - Yet Another URL Shortener</title>
+	<title>gw.gd - Shortening you !</title>
 	<link rel="stylesheet" type="text/css" media="screen" href="screen.css" />
   <?php
   if (file_exists('user/screen.css')) {
@@ -15,6 +15,8 @@
 
 <body onload="document.getElementById('long').focus();">
 	<div id="main">
-		<h1><a href="<?php echo $casimir->base_url; ?>">Cas.im/ir</a></h1>
-		<h2>Yet Another URL Shortener</h2>
+	<?php //var_dump($casimir) ;
+	?>
+		<h1><a href="<?php echo $casimir->base_url; ?>">GW.GD</a></h1>
+		<h2>Free URL shortening service from <a href="http://ww7.pe">ww7.pe</a></h2>
 		
