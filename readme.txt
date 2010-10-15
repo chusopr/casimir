@@ -14,6 +14,10 @@
     `use_date` timestamp NOT NULL default '0000-00-00 00:00:00'
   ) ENGINE=MyISAM DEFAULT CHARSET=utf8
 
+  ALTER TABLE `casimir` ADD `title_url` VARCHAR( 128 )
+  NOT NULL DEFAULT 'No title defined for this url',
+  ADD FULLTEXT (`title_url`)
+
 2. Copy "user/casimir-conf.php.example" to "user/casimir-conf.php" and edit the configuration settings
 
 3. Rename "htaccess" to ".htaccess" according to your settings
