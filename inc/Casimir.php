@@ -207,7 +207,6 @@ class Casimir {
     if ($res = mysql_query($query)) {
 	    $list = '<dl>';
 	    while ($url = mysql_fetch_assoc($res)) {
-		if ( GETTITLE == "yes" ) $withtitle="with title : ".$url['']." ";
 	    	$list .= '<dt><a href="'.$url['short_url'].'" rel="nofollow" >'.$url['short_url'].'</a> visited '.$url['uses'].' time(s)</dt>';
 		if ( GETTITLE == "yes" ) $list .= "<dd> with title : ".$url['title_url']." </dd> ";
         $list .= '<dd><a href="'.$url['long_url'].'">'.htmlspecialchars($url['long_url']).'</a></dt>';
