@@ -114,7 +114,7 @@ class Casimir {
       return array(false, '', 'You must at least enter a long URL!');
     } elseif (!ereg("^https?://", $long)) {
       return array(false, '', 'Your URL must start with either "http://" or "https://"!');
-    } elseif (substr($long, 0, strlen($this->base_url) - 1) == $this->base_url) {
+    } elseif (substr($long, 0, strlen($this->base_url)) == $this->base_url) {
       return array(false, '', 'This is already a shorten URL!');
     } elseif ( GETHEAD == "yes") {
       if ( ! $this->GetUrlHttpHead($long) ) return array(false, '', 'Can t reach this URL, please try again');
