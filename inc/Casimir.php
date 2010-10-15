@@ -239,7 +239,6 @@ class Casimir {
      $str = $str.strtolower($newstr);
      if (strpos($str,"</title>",$count) ) break;
      $count+=100;
-     //echo $count."<br />";
     } 
 
     fclose($fh);
@@ -283,4 +282,3 @@ else return "";
   }
 }
 ?>
-

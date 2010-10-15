@@ -4,7 +4,7 @@ require_once 'inc/Casimir.php';
 $casimir = new Casimir();
 $casimir->handleRequest();
 if (!isset($_GET['format']) || !in_array($_GET['format'], array('text', 'xml'))) {
-  $format = 'xml';
+  $format = DEFAPIFORMAT;
 } else {
   $format = $_GET['format'];
 }

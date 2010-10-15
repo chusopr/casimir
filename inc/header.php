@@ -15,8 +15,6 @@
 
 <body onload="document.getElementById('long').focus();">
 	<div id="main">
-	<?php //var_dump($casimir) ;
-	?>
 		<h1><a href="<?php echo $casimir->base_url; ?>">GW.GD</a></h1>
 		<h2>Free URL shortening service from <a href="http://ww7.pe">ww7.pe</a></h2>
 		
