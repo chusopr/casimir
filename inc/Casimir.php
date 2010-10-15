@@ -130,6 +130,14 @@ class Casimir {
     	}
     }
     $existing_long = $this->getLong($short);
+    if ( ! $existing_short )
+    {
+     if ( GETTITLE  == "yes")
+     {
+      $title = $this->GetUrlHtmlTitle($long);
+      $withtitle=' with title :<br /><a> "'.$title.' </a>"';
+     }
+    }
     switch(true) {
     	case ($short == '' && $existing_short):
     		$short = $existing_short;
@@ -138,10 +146,11 @@ class Casimir {
     		break;
     	case ($short == '' && !$existing_short):
 	      $short = $this->getRandomShort();
-	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date) VALUES ("'.$short.'", "'.$long.'", NOW())';
+	      
+	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW(), "'. $title."' )'";
 	      if (mysql_query($query)) {
 	        $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
-	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
+	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>'.$withtitle);
 	      } else {
 	        return array(false, $short, 'Something went wrong: '.mysql_error());
 	      }
@@ -154,20 +163,22 @@ class Casimir {
         return array(false, $short, 'This short URL already exists and is associated with this other long URL:<br /><a href="'.$existing_long.'">'.$existing_long.'</a>');
     		break;
     	case ($short != '' && !$existing_short):
+               if ( GETTITLE  == "yes") $title = $this->GetUrlHtmlTitle($long);
         $query = 'INSERT INTO casimir (short_url, long_url, creation_date) VALUES ("'.$short.'", "'.$long.'", NOW())';
         if (mysql_query($query)) {
           $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
-          return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
+	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>'.$withtitle);
         } else {
           return array(false, $short, 'Something went wrong: '.mysql_error());
         }
     		break;
     	case ($short != '' && !$existing_long):
     		// Same as previous???
+               if ( GETTITLE  == "yes") $title = $this->GetUrlHtmlTitle($long);
         $query = 'INSERT INTO casimir (short_url, long_url, creation_date) VALUES ("'.$short.'", "'.$long.'", NOW())';
         if (mysql_query($query)) {
           $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
-          return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
+	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>'.$withtitle);
         } else {
           return array(false, $short, 'Something went wrong: '.mysql_error());
         }
@@ -211,11 +222,6 @@ class Casimir {
   function getMostUsedLastDays($days = 7, $nb = 10) {
     return $this->getMostUsedSinceDate(date("Y-m-d H:i:s", time() - $days * 24*60*60), $nb);
   }
-
-//  function GetTitleFromHead(){
-
-
-//  }
 
   // getting the <title> in the HTML head of the URL
   // we only get the first bytes of the file until we find the </title> 
@@ -278,3 +284,4 @@ else return "";
   }
 }
 ?>
+
