@@ -84,7 +84,7 @@ class Casimir {
 
   function showBookmarklet() {
   	?>
-  	<a href="javascript:var url='<?php echo $this->base_url; ?>?<?php if (defined('ACCESS_KEY') && ACCESS_KEY != '' && ACCESS_KEY == $this->access_key) { echo 'access_key='.ACCESS_KEY.'&'; } ?>long='+encodeURIComponent(location.host=='maps.google.com'?document.getElementById('link').href:location.href);var short=prompt('Do you want to define your own short URL? (leave empty if you don\'t)','');if(short!=''){url=url+'&short='+short;}location.href=url;">+Casimir</a>
+  	<a href="javascript:var url='<?php echo $this->base_url; ?>?<?php if (defined('ACCESS_KEY') && ACCESS_KEY != '' && ACCESS_KEY == $this->access_key) { echo 'access_key='.ACCESS_KEY.'&'; } ?>long='+encodeURIComponent(location.host=='maps.google.com'?document.getElementById('link').href:location.href);var short=prompt('Do you want to define your own short URL? (leave empty if you don\'t)','');if(short!=''){url=url+'&amp;short='+short;}location.href=url;">+Casimir</a>
   	<?php
   }
   
@@ -209,9 +209,9 @@ class Casimir {
     if ($res = mysql_query($query)) {
 	    $list = '<dl>';
 	    while ($url = mysql_fetch_assoc($res)) {
-	    	$list .= '<dt><a href="'.$url['short_url'].'" rel="nofollow" >'.$url['short_url'].'</a> visited '.$url['uses'].' time(s)</dt>';
+	    	$list .= '<dt> <a href="'.$url['short_url'].'" rel="nofollow" >'.$url['short_url'].'</a> visited '.$url['uses'].' time(s) </dt>';
 		if ( GETTITLE == "yes" ) $list .= "<dd> with title : ".$url['title_url']." </dd> ";
-        $list .= '<dd><a href="'.$url['long_url'].'">'.htmlspecialchars($url['long_url']).'</a></dt>';
+        $list .= '<dd><a href="'.$url['long_url'].'">'.htmlspecialchars($url['long_url']).'</a></dd>';
 	    }
 	    $list .= '</dl>';
       return $list;
