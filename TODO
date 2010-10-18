@@ -9,3 +9,5 @@ ADD FULLTEXT (
 `title_url`
 )
 
+ajout parametre pour CDN 	screen.css et casimir.png
+

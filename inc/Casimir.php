@@ -136,7 +136,7 @@ class Casimir {
     {
      if ( GETTITLE  == "yes")
      {
-      $title = $this->GetUrlHtmlTitle($long);
+      $title = trim(mysql_escape_string($this->GetUrlHtmlTitle($long)));
       $withtitle=' with title :<br /><a> "'.$title.' </a>"';
      }
     }
