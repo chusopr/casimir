@@ -259,6 +259,9 @@ class Casimir {
 
   function GetUrlHttpHead( $longurl ){
 
+// TODO replace with php default function get_headers ( string $url [, int $format = 0 ] )
+// http://php.net/manual/en/function.get-headers.php
+
  if ($longurl)
 {
   $url = $longurl;

@@ -11,7 +11,8 @@ define('USE_REWRITE', true);
 // restrict access?
 define('ACCESS_KEY', '');
 
-define('GETHEAD' , 'yes' );
+//define('GETHEAD' , 'yes' );
+define('GETHEAD' , 'no' );
 define('GETTITLE', 'yes' );
 define('DEFAPIFORMAT', 'text' );
 ?>
