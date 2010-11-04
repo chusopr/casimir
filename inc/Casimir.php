@@ -27,7 +27,7 @@ class Casimir {
 
   function handleRequest() {
 		if (ereg("^.*/\??([^=]+)$", $_SERVER['REQUEST_URI'], $regs)) {
-		  $this->short = mysql_escape_string($regs[1]);
+		  $this->short = mysql_real_escape_string($regs[1]);
 		} else {
 		  $this->short = '';
 		}
@@ -89,7 +89,7 @@ class Casimir {
   }
   
   function getShort($long) {
-    $q = 'SELECT short_url FROM casimir WHERE long_url="'.trim(mysql_escape_string($long)).'" ORDER BY creation_date DESC LIMIT 0,1';
+    $q = 'SELECT short_url FROM casimir WHERE long_url="'.trim(mysql_real_escape_string($long)).'" ORDER BY creation_date DESC LIMIT 0,1';
     $result = mysql_query($q);
     if (mysql_num_rows($result)) {
       $row = mysql_fetch_array($result);
@@ -100,7 +100,7 @@ class Casimir {
   }
 
   function getLong($short) {
-    $q = 'SELECT long_url FROM casimir WHERE short_url="'.trim(mysql_escape_string($short)).'"';
+    $q = 'SELECT long_url FROM casimir WHERE short_url="'.trim(mysql_real_escape_string($short)).'"';
     $result = mysql_query($q);
     if (mysql_num_rows($result)) {
       $row = mysql_fetch_array($result);
@@ -111,7 +111,7 @@ class Casimir {
   }
   
   function addUrl($long, $short = '') {
-    $long = trim(mysql_escape_string($long));
+    $long = trim(mysql_real_escape_string($long));
     if ($long == '') {
       return array(false, '', 'You must at least enter a long URL!');
     } elseif (!ereg("^https?://", $long)) {
@@ -123,7 +123,7 @@ class Casimir {
     }
 
     $existing_short = $this->getShort($long);
-    $short = trim(mysql_escape_string($short));
+    $short = trim(mysql_real_escape_string($short));
     if ($short != '') {
     	if (!ereg("^[a-zA-Z0-9_-]+$", $short)) {
         return array(false, '', 'This short URL is not authorized!');
@@ -136,7 +136,7 @@ class Casimir {
     {
      if ( GETTITLE  == "yes")
      {
-      $title = trim(mysql_escape_string($this->GetUrlHtmlTitle($long)));
+      $title = trim(mysql_real_escape_string($this->GetUrlHtmlTitle($long)));
       $withtitle=' with title :<br /><a> "'.$title.' </a>"';
      }
     }
@@ -198,14 +198,14 @@ class Casimir {
   }
   
   function updateUses($short) {
-    $query = "INSERT INTO casimir_stats (short_url, use_date) VALUES ('".trim(mysql_escape_string($short))."', NOW())";
+    $query = "INSERT INTO casimir_stats (short_url, use_date) VALUES ('".trim(mysql_real_escape_string($short))."', NOW())";
     mysql_query($query);
-    $query = "UPDATE casimir SET last_use_date=NOW(), uses=uses+1 WHERE short_url='".trim(mysql_escape_string($short))."'";
+    $query = "UPDATE casimir SET last_use_date=NOW(), uses=uses+1 WHERE short_url='".trim(mysql_real_escape_string($short))."'";
     return mysql_query($query);
   }
   	
   function getMostUsedSinceDate($since = '1970-01-01 00:00:01', $nb = 10) {
-    $query = "SELECT s.short_url, COUNT(*) AS uses, c.long_url, c.title_url FROM casimir_stats s, casimir c WHERE s.short_url = c.short_url AND use_date >= '".mysql_escape_string($since)."' GROUP BY s.short_url ORDER BY uses DESC LIMIT 0,".max(1,intval($nb));
+    $query = "SELECT s.short_url, COUNT(*) AS uses, c.long_url, c.title_url FROM casimir_stats s, casimir c WHERE s.short_url = c.short_url AND use_date >= '".mysql_real_escape_string($since)."' GROUP BY s.short_url ORDER BY uses DESC LIMIT 0,".max(1,intval($nb));
     if ($res = mysql_query($query)) {
 	    $list = '<dl>';
 	    while ($url = mysql_fetch_assoc($res)) {
