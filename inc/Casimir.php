@@ -137,7 +137,7 @@ class Casimir {
      if ( GETTITLE  == "yes")
      {
       $title = trim(mysql_real_escape_string($this->GetUrlHtmlTitle($long)));
-      $withtitle=' with title :<br /><a> "'.$title.' </a>"';
+      $withtitle=' with title :<br /><a> "'.stripslashes($title).' </a>"';
      }
     }
     switch(true) {
@@ -210,7 +210,7 @@ class Casimir {
 	    $list = '<dl>';
 	    while ($url = mysql_fetch_assoc($res)) {
 	    	$list .= '<dt> <a href="'.$url['short_url'].'" rel="nofollow" >'.$url['short_url'].'</a> visited '.$url['uses'].' time(s) </dt>';
-		if ( GETTITLE == "yes" ) $list .= "<dd> with title : ".$url['title_url']." </dd> ";
+		if ( GETTITLE == "yes" ) $list .= "<dd> with title : ".stripslashes($url['title_url'])." </dd> ";
         $list .= '<dd><a href="'.$url['long_url'].'">'.htmlspecialchars($url['long_url']).'</a></dd>';
 	    }
 	    $list .= '</dl>';
