@@ -1,0 +1,6 @@
+*~
+.htaccess
+.DS_Store
+user/*
+!user/*.example
+*.esproj
