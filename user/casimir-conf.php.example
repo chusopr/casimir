@@ -11,10 +11,12 @@ define('USE_REWRITE', false);
 // restrict access?
 define('ACCESS_KEY', '');
 
-// additional parameters
-define('GETHEAD' , 'yes' );
-define('GETTITLE', 'yes' );
-  
-define('DEFAPIFORMAT', 'text' );
+// verify if the URL exists?
+define('GETHEAD', 'yes');
 
+// Get the linked page title?
+define('GETTITLE', 'yes');
+  
+// Default API format ('text' or 'xml')
+define('DEFAULT_API_FORMAT', 'text');
 ?>
