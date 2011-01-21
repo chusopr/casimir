@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-	<title>Cas.im/ir - Yet Another URL Shortener</title>
+	<title><?php echo TITLE ; ?> </title>
 	<link rel="stylesheet" type="text/css" media="screen" href="screen.css" />
   <?php
   if (file_exists('user/screen.css')) {
@@ -15,5 +15,5 @@
 
 <body onload="document.getElementById('long').focus();">
 	<div id="main">
-		<h1><a href="<?php echo $casimir->base_url; ?>">Cas.im/ir</a></h1>
-		<h2>Yet Another URL Shortener</h2>
+		<h1><a href="<?php echo $casimir->base_url; ?>"> <?php echo NAME ; ?></a></h1>
+		<h2> <?php echo TITLE ; ?></h2>

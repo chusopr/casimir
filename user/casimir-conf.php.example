@@ -19,4 +19,7 @@ define('GETTITLE', 'yes');
   
 // Default API format ('text' or 'xml')
 define('DEFAULT_API_FORMAT', 'text');
+define('HISTSIZEX', '3' );
+define('TITLE', 'Cas.im/ir - Yet Another URL Shortener' );
+define('NAME', 'Cas.im/ir' );
 ?>
