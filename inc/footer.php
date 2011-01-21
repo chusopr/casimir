@@ -6,7 +6,7 @@
         <a href="<?php echo $casimir->base_url; ?>">Home</a> |
         <a href="<?php echo $casimir->base_url; ?>tools.php">Tools</a> |
         <a href="<?php echo $casimir->base_url; ?>stats.php#lastday">Stats</a> |
-        powered by <a href="http://wiki.github.com/nhoizey/casimir">Cas.im/ir</a> and <a href="http://ww7.pe">hosted by ww7.pe</a>
+        <a href="http://wiki.github.com/nhoizey/casimir">About Cas.im/ir</a>
       </p>
     </div>
     <?php
