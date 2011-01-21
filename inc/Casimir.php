@@ -204,14 +204,18 @@ class Casimir {
     return mysql_query($query);
   }
   	
-  function getMostUsedSinceDate($since = '1970-01-01 00:00:01', $nb = 10) {
+  function getMostUsedSinceDate($since = '1970-01-01 00:00:01', $nb = 10 ) {
+   $nb = $nb * HISTSIZEX ;
     $query = "SELECT s.short_url, COUNT(*) AS uses, c.long_url, c.title_url FROM casimir_stats s, casimir c WHERE s.short_url = c.short_url AND use_date >= '".mysql_real_escape_string($since)."' GROUP BY s.short_url ORDER BY uses DESC LIMIT 0,".max(1,intval($nb));
     if ($res = mysql_query($query)) {
 	    $list = '<dl>';
+	    $rank = 1;
+
 	    while ($url = mysql_fetch_assoc($res)) {
-	    	$list .= '<dt> <a href="'.$url['short_url'].'" rel="nofollow" >'.$url['short_url'].'</a> visited '.$url['uses'].' time(s) </dt>';
+	    	$list .= '<dt> #'. $rank .' - <a href="'.$url['short_url'].'" rel="nofollow" >'.$url['short_url'].'</a> visited '.$url['uses'].' time(s) </dt>';
 		if ( GETTITLE == "yes" ) $list .= "<dd> with title : ".stripslashes($url['title_url'])." </dd> ";
         $list .= '<dd><a href="'.$url['long_url'].'">'.htmlspecialchars($url['long_url']).'</a></dd>';
+	    $rank ++ ;
 	    }
 	    $list .= '</dl>';
       return $list;
