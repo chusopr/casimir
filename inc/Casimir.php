@@ -3,6 +3,7 @@ class Casimir {
   public $version;
 	public $base_url;
 	public $short;
+	public $title_page;
 	public $msg;
 	public $ok;
 	public $access_key;
@@ -15,6 +16,7 @@ class Casimir {
     if ($current_dir == '/') $current_dir = '';
     $this->base_url = 'http://'.$_SERVER['SERVER_NAME'].$current_dir.'/';
     $this->short = '';
+    $this->title_page = '';
     $this->msg = '';
     $this->ok = true;
     $this->access_key = '';
@@ -136,8 +138,9 @@ class Casimir {
     {
      if ( GETTITLE  == "yes")
      {
-      $title = trim(mysql_real_escape_string($this->GetUrlHtmlTitle($long)));
-      $withtitle=' with title :<br /><a> "'.stripslashes($title).' </a>"';
+      
+      $this->title_page = trim(mysql_real_escape_string($this->GetUrlHtmlTitle($long)));
+      $withtitle=' with title :<br /><a> "'.stripslashes($this->title_page).' </a>"';
      }
     }
     switch(true) {
@@ -149,7 +152,7 @@ class Casimir {
     	case ($short == '' && !$existing_short):
 	      $short = $this->getRandomShort();
 	      
-	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW(), \''. $title."' )";
+	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW(), \''. $this->title_page ."' )";
 	      if (mysql_query($query)) {
 	        $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
 	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>'.$withtitle);
@@ -165,7 +168,7 @@ class Casimir {
         return array(false, $short, 'This short URL already exists and is associated with this other long URL:<br /><a href="'.$existing_long.'">'.$existing_long.'</a>');
     		break;
     	case ($short != '' && !$existing_short):
-	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW(), \''. $title."' )";
+	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW(), \''. $this->title_page ."' )";
         if (mysql_query($query)) {
           $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
 	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>'.$withtitle);
@@ -175,7 +178,7 @@ class Casimir {
     		break;
     	case ($short != '' && !$existing_long):
     		// Same as previous???
-	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW(), \''. $title."' )";
+	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW(), \''. $this->title_page."' )";
         if (mysql_query($query)) {
           $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
 	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>'.$withtitle);
@@ -239,19 +242,32 @@ class Casimir {
     $str="";
     $fh = fopen($url, "r");
     $count = 0;
+    $found = false;
+    // searching title
     while ($count < 7500)
     {
      $newstr=fread($fh, 100);  // read 100 more characters, until we find the title
      $str = $str.strtolower($newstr);
-     if (strpos($str,"</title>",$count) ) break;
+     if (@strpos($str,"</title>",$count) )
+     {
+      $found =  true;
+      break;
+     }
      $count+=100;
     } 
 
     fclose($fh);
     $str2 = strtolower($str);
-    $start = strpos($str2, "<title>")+7;
-    $len   = strpos($str2, "</title>") - $start;
-    return substr($str, $start, $len);
+    if ( $found  )
+    {
+     $start = strpos($str2, "<title>")+7;
+     $len   = strpos($str2, "</title>") - $start;
+     return substr($str, $start, $len);
+    }
+    else 
+    {
+     return "";
+    }
    }
 
    else return "";
