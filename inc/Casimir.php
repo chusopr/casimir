@@ -236,33 +236,45 @@ class Casimir {
   // to be faster
   function GetUrlHtmlTitle( $longurl ){
 
+ 
    if ( $longurl )
    {
     $url = $longurl;
     $str="";
-    $fh = fopen($url, "r");
-    $count = 0;
-    $found = false;
-    // searching title
-    while ($count < 7500)
+    if ( isset ( $url ) )
     {
-     $newstr=fread($fh, 100);  // read 100 more characters, until we find the title
-     $str = $str.strtolower($newstr);
-     if (@strpos($str,"</title>",$count) )
+     $fh = @fopen($url, "r");
+     if ( !isset($fh) ) return "";
+//       echo  "hiiiiiii |$url| "; exit;
+
+     $count = 0;
+     $found = false;
+     // searching title
+     while ($count < 7500)
      {
-      $found =  true;
-      break;
+      if ( $fh )
+      {
+       $newstr=@fread($fh, 100);  // read 100 more characters, until we find the title
+       $str = $str.strtolower($newstr);
+       if (@strpos($str,"</title>",$count) )
+       {
+        $found =  true;
+        break;
+       }
+       $count+=100;
+      }
+      else break;
      }
-     $count+=100;
     } 
 
-    fclose($fh);
+    if ( $fh ) fclose($fh);
+
     $str2 = strtolower($str);
     if ( $found  )
     {
      $start = strpos($str2, "<title>")+7;
      $len   = strpos($str2, "</title>") - $start;
-     return substr($str, $start, $len);
+     return trim( substr($str, $start, $len));
     }
     else 
     {
