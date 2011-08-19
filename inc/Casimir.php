@@ -28,7 +28,7 @@ class Casimir {
 	}
 
   function handleRequest() {
-		if (ereg("^.*/\??([^=]+)$", $_SERVER['REQUEST_URI'], $regs)) {
+		if (preg_match("#^.*/\??([^=]+)$#i", $_SERVER['REQUEST_URI'], $regs)) {
 		  $this->short = mysql_real_escape_string($regs[1]);
 		} else {
 		  $this->short = '';
@@ -116,7 +116,7 @@ class Casimir {
     $long = trim(mysql_real_escape_string($long));
     if ($long == '') {
       return array(false, '', 'You must at least enter a long URL!');
-    } elseif (!ereg("^https?://", $long)) {
+    } elseif (!preg_match("#^https?://#", $long)) {
       return array(false, '', 'Your URL must start with either "http://" or "https://"!');
     } elseif (substr($long, 0, strlen($this->base_url)) == $this->base_url) {
       return array(false, '', 'This is already a shorten URL!');
@@ -127,7 +127,7 @@ class Casimir {
     $existing_short = $this->getShort($long);
     $short = trim(mysql_real_escape_string($short));
     if ($short != '') {
-    	if (!ereg("^[a-zA-Z0-9_-]+$", $short)) {
+    	if (!preg_match("#^[a-zA-Z0-9_-]+$#", $short)) {
         return array(false, '', 'This short URL is not authorized!');
     	} elseif (strlen($short) > 50) {
         return array(false, '', 'This short URL is not short enough! Hint: 50 chars allowed...');
