@@ -17,19 +17,19 @@ require_once 'inc/header.php';
   <div id="lastday">
     <h4>Last day</h4>
     <?php
-    echo $casimir->getMostUsedLastDays(1, 5);
+    echo $casimir->getMostUsedLastDays(1, 5 * HISTSIZEX );
     ?>
   </div>
   <div id="lastweek">
     <h4>Last week</h4>
     <?php
-    echo $casimir->getMostUsedLastDays(7, 5);
+    echo $casimir->getMostUsedLastDays(7, 5 * HISTSIZEX);
     ?>
   </div>
   <div id="lastmonth">
     <h4>Last month</h4>
     <?php
-    echo $casimir->getMostUsedLastDays(30, 5);
+    echo $casimir->getMostUsedLastDays(30, 5 * HISTSIZEX);
     ?>
   </div>
   <div id="ever">

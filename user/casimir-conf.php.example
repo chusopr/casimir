@@ -19,4 +19,10 @@ define('GETTITLE', 'yes');
   
 // Default API format ('text' or 'xml')
 define('DEFAULT_API_FORMAT', 'text');
+// bigger stats size 
+define('HISTSIZEX', '3' );
+// Site title
+define('TITLE', 'Cas.im/ir - Yet Another URL Shortener' );
+// site name
+define('NAME', 'Cas.im/ir' );
 ?>

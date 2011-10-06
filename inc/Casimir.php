@@ -3,6 +3,7 @@ class Casimir {
   public $version;
 	public $base_url;
 	public $short;
+	public $title_page;
 	public $msg;
 	public $ok;
 	public $access_key;
@@ -15,6 +16,7 @@ class Casimir {
     if ($current_dir == '/') $current_dir = '';
     $this->base_url = 'http://'.$_SERVER['SERVER_NAME'].$current_dir.'/';
     $this->short = '';
+    $this->title_page = '';
     $this->msg = '';
     $this->ok = true;
     $this->access_key = '';
@@ -26,7 +28,7 @@ class Casimir {
 	}
 
   function handleRequest() {
-		if (ereg("^.*/\??([^=]+)$", $_SERVER['REQUEST_URI'], $regs)) {
+		if (preg_match("#^.*/\??([^=]+)$#i", $_SERVER['REQUEST_URI'], $regs)) {
 		  $this->short = mysql_real_escape_string($regs[1]);
 		} else {
 		  $this->short = '';
@@ -114,7 +116,7 @@ class Casimir {
     $long = trim(mysql_real_escape_string($long));
     if ($long == '') {
       return array(false, '', 'You must at least enter a long URL!');
-    } elseif (!ereg("^https?://", $long)) {
+    } elseif (!preg_match("#^https?://#", $long)) {
       return array(false, '', 'Your URL must start with either "http://" or "https://"!');
     } elseif (substr($long, 0, strlen($this->base_url)) == $this->base_url) {
       return array(false, '', 'This is already a shorten URL!');
@@ -125,7 +127,7 @@ class Casimir {
     $existing_short = $this->getShort($long);
     $short = trim(mysql_real_escape_string($short));
     if ($short != '') {
-    	if (!ereg("^[a-zA-Z0-9_-]+$", $short)) {
+    	if (!preg_match("#^[a-zA-Z0-9_-]+$#", $short)) {
         return array(false, '', 'This short URL is not authorized!');
     	} elseif (strlen($short) > 50) {
         return array(false, '', 'This short URL is not short enough! Hint: 50 chars allowed...');
@@ -136,8 +138,9 @@ class Casimir {
     {
      if ( GETTITLE  == "yes")
      {
-      $title = trim(mysql_real_escape_string($this->GetUrlHtmlTitle($long)));
-      $withtitle=' with title :<br /><a> "'.stripslashes($title).' </a>"';
+      
+      $this->title_page = trim(mysql_real_escape_string($this->GetUrlHtmlTitle($long)));
+      $withtitle=' with title :<br /><a> "'.stripslashes($this->title_page).' </a>"';
      }
     }
     switch(true) {
@@ -149,7 +152,7 @@ class Casimir {
     	case ($short == '' && !$existing_short):
 	      $short = $this->getRandomShort();
 	      
-	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW(), \''. $title."' )";
+	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW(), \''. $this->title_page ."' )";
 	      if (mysql_query($query)) {
 	        $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
 	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>'.$withtitle);
@@ -165,7 +168,7 @@ class Casimir {
         return array(false, $short, 'This short URL already exists and is associated with this other long URL:<br /><a href="'.$existing_long.'">'.$existing_long.'</a>');
     		break;
     	case ($short != '' && !$existing_short):
-	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW(), \''. $title."' )";
+	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW(), \''. $this->title_page ."' )";
         if (mysql_query($query)) {
           $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
 	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>'.$withtitle);
@@ -175,7 +178,7 @@ class Casimir {
     		break;
     	case ($short != '' && !$existing_long):
     		// Same as previous???
-	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW(), \''. $title."' )";
+	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW(), \''. $this->title_page."' )";
         if (mysql_query($query)) {
           $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
 	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>'.$withtitle);
@@ -204,14 +207,18 @@ class Casimir {
     return mysql_query($query);
   }
   	
-  function getMostUsedSinceDate($since = '1970-01-01 00:00:01', $nb = 10) {
+  function getMostUsedSinceDate($since = '1970-01-01 00:00:01', $nb = 10 ) {
+   $nb = $nb * HISTSIZEX ;
     $query = "SELECT s.short_url, COUNT(*) AS uses, c.long_url, c.title_url FROM casimir_stats s, casimir c WHERE s.short_url = c.short_url AND use_date >= '".mysql_real_escape_string($since)."' GROUP BY s.short_url ORDER BY uses DESC LIMIT 0,".max(1,intval($nb));
     if ($res = mysql_query($query)) {
 	    $list = '<dl>';
+	    $rank = 1;
+
 	    while ($url = mysql_fetch_assoc($res)) {
-	    	$list .= '<dt> <a href="'.$url['short_url'].'" rel="nofollow" >'.$url['short_url'].'</a> visited '.$url['uses'].' time(s) </dt>';
+	    	$list .= '<dt> #'. $rank .' - <a href="'.$url['short_url'].'" rel="nofollow" >'.$url['short_url'].'</a> visited '.$url['uses'].' time(s) </dt>';
 		if ( GETTITLE == "yes" ) $list .= "<dd> with title : ".stripslashes($url['title_url'])." </dd> ";
         $list .= '<dd><a href="'.$url['long_url'].'">'.htmlspecialchars($url['long_url']).'</a></dd>';
+	    $rank ++ ;
 	    }
 	    $list .= '</dl>';
       return $list;
@@ -229,25 +236,50 @@ class Casimir {
   // to be faster
   function GetUrlHtmlTitle( $longurl ){
 
+ 
    if ( $longurl )
    {
     $url = $longurl;
     $str="";
-    $fh = fopen($url, "r");
-    $count = 0;
-    while ($count < 7500)
+    if ( isset ( $url ) )
     {
-     $newstr=fread($fh, 100);  // read 100 more characters, until we find the title
-     $str = $str.strtolower($newstr);
-     if (strpos($str,"</title>",$count) ) break;
-     $count+=100;
+     $fh = @fopen($url, "r");
+     if ( !isset($fh) ) return "";
+//       echo  "hiiiiiii |$url| "; exit;
+
+     $count = 0;
+     $found = false;
+     // searching title
+     while ($count < 7500)
+     {
+      if ( $fh )
+      {
+       $newstr=@fread($fh, 100);  // read 100 more characters, until we find the title
+       $str = $str.strtolower($newstr);
+       if (@strpos($str,"</title>",$count) )
+       {
+        $found =  true;
+        break;
+       }
+       $count+=100;
+      }
+      else break;
+     }
     } 
 
-    fclose($fh);
+    if ( $fh ) fclose($fh);
+
     $str2 = strtolower($str);
-    $start = strpos($str2, "<title>")+7;
-    $len   = strpos($str2, "</title>") - $start;
-    return substr($str, $start, $len);
+    if ( $found  )
+    {
+     $start = strpos($str2, "<title>")+7;
+     $len   = strpos($str2, "</title>") - $start;
+     return trim( substr($str, $start, $len));
+    }
+    else 
+    {
+     return "";
+    }
    }
 
    else return "";
