@@ -137,10 +137,10 @@ class Casimir {
     	case ($short == '' && !$existing_short):
 	      $short = $this->getRandomShort();
 	      
-	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW(), \''. $title."' )";
+	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date) VALUES ("'.$short.'", "'.$long.'", NOW())';
 	      if (mysql_query($query)) {
 	        $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
-	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>'.$withtitle);
+	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
 	      } else {
 	        return array(false, $short, 'Something went wrong: '.mysql_error());
 	      }
@@ -153,20 +153,20 @@ class Casimir {
         return array(false, $short, 'This short URL already exists and is associated with this other long URL:<br /><a href="'.$existing_long.'">'.$existing_long.'</a>');
     		break;
     	case ($short != '' && !$existing_short):
-	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW(), \''. $title."' )";
+	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date) VALUES ("'.$short.'", "'.$long.'", NOW())';
         if (mysql_query($query)) {
           $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
-	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>'.$withtitle);
+	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
         } else {
           return array(false, $short, 'Something went wrong: '.mysql_error());
         }
     		break;
     	case ($short != '' && !$existing_long):
     		// Same as previous???
-	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW(), \''. $title."' )";
+	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW())';
         if (mysql_query($query)) {
           $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
-	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>'.$withtitle);
+	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
         } else {
           return array(false, $short, 'Something went wrong: '.mysql_error());
         }
@@ -186,14 +186,14 @@ class Casimir {
   }
   
   function updateUses($short) {
-    $query = "INSERT INTO casimir_stats (short_url, use_date) VALUES ('".trim(mysql_real_escape_string($short))."', NOW())";
+    $query = 'INSERT INTO casimir_stats (short_url, use_date) VALUES ("'.trim(mysql_real_escape_string($short)).'", NOW())';
     mysql_query($query);
-    $query = "UPDATE casimir SET last_use_date=NOW(), uses=uses+1 WHERE short_url='".trim(mysql_real_escape_string($short))."'";
+    $query = 'UPDATE casimir SET last_use_date=NOW(), uses=uses+1 WHERE short_url="'.trim(mysql_real_escape_string($short)).'"';
     return mysql_query($query);
   }
   	
   function getMostUsedSinceDate($since = '1970-01-01 00:00:01', $nb = 10) {
-    $query = "SELECT s.short_url, COUNT(*) AS uses, c.long_url, c.title_url FROM casimir_stats s, casimir c WHERE s.short_url = c.short_url AND use_date >= '".mysql_real_escape_string($since)."' GROUP BY s.short_url ORDER BY uses DESC LIMIT 0,".max(1,intval($nb));
+    $query = 'SELECT s.short_url, COUNT(*) AS uses, c.long_url FROM casimir_stats s, casimir c WHERE s.short_url = c.short_url AND use_date >= "'.mysql_real_escape_string($since).'" GROUP BY s.short_url ORDER BY uses DESC LIMIT 0,'.max(1,intval($nb));
     if ($res = mysql_query($query)) {
 	    $list = '<dl>';
 	    while ($url = mysql_fetch_assoc($res)) {
