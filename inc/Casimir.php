@@ -74,8 +74,6 @@ class Casimir {
         <dt><label for="short">Optionally, define your own short URL:</label></dt>
         <dd><?php echo $this->base_url.(USE_REWRITE ? '' : '?'); ?><input type="text" name="short" id="short" size="20" maxlength="255" value="<?php echo ($this->ok ? '' : (isset($_POST['short']) ? $_POST['short'] : (isset($_GET['short']) ? $_GET['short'] : ''))); ?>" /></dd>
         <dt></dt>
-	<dt><label for="gettitle">Optionally, get the page title (slower)</label></dt>
-	<dd><input type="checkbox" name="gettitle" id="gettitle" value="gettitle" checked="checked" /></dd>
         <dd class="center"><input type="submit" name="submit" id="submit" value="Create!" /></dd>
       </dl>
     </form>

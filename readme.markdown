@@ -1,6 +1,6 @@
 # Cas.im/ir
 
-## YEUS: Yet Another URL Shortener (or Shrinker)
+## Yet Another URL Shortener (or Shrinker)
 
 Cas.im/ir is inspired by -- and tries to find its way between -- both [lilURL](http://lilurl.sourceforge.net/) and [xav.cc](http://xav.cc/) 's [sfShortUrlPlugin](http://www.symfony-project.org/plugins/sfShortUrlPlugin), the first lacking some essential features and the later needing a whole [symfony](http://www.symfony-project.org/) environment, as the location implies.
 
