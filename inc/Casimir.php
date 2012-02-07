@@ -116,8 +116,6 @@ class Casimir {
       return array(false, '', 'Your URL must start with either "http://" or "https://"!');
     } elseif (substr($long, 0, strlen($this->base_url)) == $this->base_url) {
       return array(false, '', 'This is already a shorten URL!');
-    } elseif ( GETHEAD == "yes") {
-      if ( ! $this->GetUrlHttpHead($long) ) return array(false, '', 'Can t reach this URL, please try again');
     }
 
     $existing_short = $this->getShort($long);
@@ -130,14 +128,6 @@ class Casimir {
     	}
     }
     $existing_long = $this->getLong($short);
-    if ( ! $existing_short )
-    {
-     if ( GETTITLE  == "yes")
-     {
-      $title = trim(mysql_real_escape_string($this->GetUrlHtmlTitle($long)));
-      $withtitle=' with title :<br /><a> "'.stripslashes($title).' </a>"';
-     }
-    }
     switch(true) {
     	case ($short == '' && $existing_short):
     		$short = $existing_short;
@@ -208,7 +198,6 @@ class Casimir {
 	    $list = '<dl>';
 	    while ($url = mysql_fetch_assoc($res)) {
 	    	$list .= '<dt> <a href="'.$url['short_url'].'" rel="nofollow" >'.$url['short_url'].'</a> visited '.$url['uses'].' time(s) </dt>';
-		if ( GETTITLE == "yes" ) $list .= "<dd> with title : ".stripslashes($url['title_url'])." </dd> ";
         $list .= '<dd><a href="'.$url['long_url'].'">'.htmlspecialchars($url['long_url']).'</a></dd>';
 	    }
 	    $list .= '</dl>';
@@ -220,68 +209,6 @@ class Casimir {
 
   function getMostUsedLastDays($days = 7, $nb = 10) {
     return $this->getMostUsedSinceDate(date("Y-m-d H:i:s", time() - $days * 24*60*60), $nb);
-  }
-
-  // getting the <title> in the HTML head of the URL
-  // we only get the first bytes of the file until we find the </title> 
-  // to be faster
-  function GetUrlHtmlTitle( $longurl ){
-
-   if ( $longurl )
-   {
-    $url = $longurl;
-    $str="";
-    $fh = fopen($url, "r");
-    $count = 0;
-    while ($count < 7500)
-    {
-     $newstr=fread($fh, 100);  // read 100 more characters, until we find the title
-     $str = $str.strtolower($newstr);
-     if (strpos($str,"</title>",$count) ) break;
-     $count+=100;
-    } 
-
-    fclose($fh);
-    $str2 = strtolower($str);
-    $start = strpos($str2, "<title>")+7;
-    $len   = strpos($str2, "</title>") - $start;
-    return substr($str, $start, $len);
-   }
-
-   else return "";
-  }
-   
-
-  // getting URL http head and title, we re NOT loading the full page, only head
-  // Accepting only existing URLs :p
-
-  function GetUrlHttpHead( $longurl ){
-
-// TODO replace with php default function get_headers ( string $url [, int $format = 0 ] )
-// http://php.net/manual/en/function.get-headers.php
-
- if ($longurl)
-{
-  $url = $longurl;
-
-  $ch = curl_init();
-  curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt ($ch, CURLOPT_URL, $url);
-  curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, 20);
-  curl_setopt ($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11');
-
-  // Only calling the head
-  curl_setopt($ch, CURLOPT_HEADER, true); // header will be at output
-  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'HEAD'); // HTTP request is 'HEAD'
-
-  $content = curl_exec ($ch);
-  curl_close ($ch);
-
-  //print $content;
-  return ($content) ;
- }
-else return "";
-
   }
 }
 ?>
