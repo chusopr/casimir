@@ -1,6 +1,6 @@
     <div id="footer">
-      <p style="float: right">
-        &copy; 2009 <a href="http://www.gasteroprod.com/">Nicolas HOIZEY</a>
+      <p class="copy">
+        &copy; 2009 <a href="http://gasteroprod.com/">Nicolas HOIZEY</a>
       </p>
       <p>
         <a href="<?php echo $casimir->base_url; ?>">Home</a> |

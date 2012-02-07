@@ -78,6 +78,10 @@ dt {
 	font-size: 0.8em;
 }
 
+#footer .copy {
+  float: right;
+}
+
 #bookmarklet a {
 	padding: 2px 5px;
 	-moz-border-radius: 5px;
