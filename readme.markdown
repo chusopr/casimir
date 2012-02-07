@@ -2,7 +2,7 @@
 
 ## Yet Another URL Shortener (or Shrinker)
 
-Cas.im/ir is inspired by -- and tries to find its way between -- both [lilURL](http://lilurl.sourceforge.net/) and [xav.cc](http://xav.cc/) 's [sfShortUrlPlugin](http://www.symfony-project.org/plugins/sfShortUrlPlugin), the first lacking some essential features and the later needing a whole [symfony](http://www.symfony-project.org/) environment, as the location implies.
+Cas.im/ir is inspired by — and tries to find its way between — both [lilURL](http://lilurl.sourceforge.net/) and [xav.cc](http://xav.cc/) 's [sfShortUrlPlugin](http://www.symfony-project.org/plugins/sfShortUrlPlugin), the first lacking some essential features and the later needing a whole [symfony](http://www.symfony-project.org/) environment, as the location implies.
 
 Cas.im/ir is both available online at [cas.im](http://cas.im/) and as a [download](https://github.com/nhoizey/casimir/downloads) for self hosting.
 
@@ -24,9 +24,7 @@ Create these tables in your MySQL database:
       `creation_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
       `last_use_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
       `uses` int(11) unsigned NOT NULL DEFAULT '0',
-      `title_url` varchar(128) NOT NULL DEFAULT 'No title defined for this url',
-      PRIMARY KEY (`short_url`),
-      FULLTEXT KEY `title_url` (`title_url`)
+      PRIMARY KEY (`short_url`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
   
     CREATE TABLE `casimir_stats` (
