@@ -29,7 +29,7 @@
   <maintainer>
     <foaf:Person>
       <foaf:name>Nicolas Hoizey</foaf:name>
-      <foaf:homepage rdf:resource=http://www.gasteroprod.com/" />
+      <foaf:homepage rdf:resource=http://gasteroprod.com/" />
     </foaf:Person>
   </maintainer>
 </Project>
