@@ -1,4 +1,7 @@
 <?php
+// Instance name
+define('INSTANCE_NAME', 'Cas.im/ir');
+
 // MySQL connection
 define('MYSQL_HOST', 'localhost');
 define('MYSQL_USER', 'root');
