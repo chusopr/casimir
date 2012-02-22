@@ -1,19 +1,18 @@
-    <div id="footer">
-      <p class="copy">
-        &copy; 2009 <a href="http://gasteroprod.com/">Nicolas HOIZEY</a>
-      </p>
-      <p>
-        <a href="<?php echo $casimir->base_url; ?>">Home</a> |
-        <a href="<?php echo $casimir->base_url; ?>tools.php">Tools</a> |
-        <a href="<?php echo $casimir->base_url; ?>stats.php#lastday">Stats</a> |
-        <a href="http://wiki.github.com/nhoizey/casimir">About Cas.im/ir</a>
-      </p>
-    </div>
-    <?php
-    if (file_exists('user/footer.php')) {
-      require 'user/footer.php';
-    }
-    ?>
+<footer>
+      <nav>
+        <ul>
+          <li><a href="<?php echo $casimir->base_url; ?>">Home</a></li>
+          <li><a href="<?php echo $casimir->base_url; ?>tools.php">Tools</a></li>
+          <li><a href="<?php echo $casimir->base_url; ?>stats.php#lastday">Stats</a></li>
+          <li class="poweredby"><a href="https://github.com/nhoizey/casimir#readme">Powered by Cas.im/ir</a></li>
+        </ul>
+      </nav>
+      <?php
+      if (file_exists('user/footer.php')) {
+        require 'user/footer.php';
+      }
+      ?>
+    </footer>
   </div>
 </body>
 

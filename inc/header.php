@@ -1,5 +1,4 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -15,5 +14,4 @@
 
 <body onload="document.getElementById('long').focus();">
 	<div id="main">
-		<h2>Yet Another URL Shortener</h2>
 		<h1><a href="<?php echo $casimir->base_url; ?>"><?php echo INSTANCE_NAME; ?></a></h1>

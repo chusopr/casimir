@@ -2,15 +2,16 @@
 
 body {
   font-family: Optima, "Trebuchet MS", Lucida, Arial, Geneva, Verdana, "Lucida Grande", Tahoma, Helvetica, sans-serif;
-  font-size: 1em;
+  font-size: 1.4em;
   margin: 0;
   padding: 0;
   color: #333;
-  background-color: #fff;
+  background-color: #eee;
 }
 
 #main {
   margin: 0 auto;
+  padding: 0;
   width: 750px;
 	background: url(img/casimir.png) right top no-repeat;
 }
@@ -36,6 +37,36 @@ dt {
 	margin-top: 1em;
 }
 
+dd {
+  margin-left: 20px;
+}
+
+input {
+  font-size: 1em;
+  padding: 0.2em; 
+  -webkit-border-radius: 0.2em; /* Saf3-4, iOS 1-3.2, Android ≤1.6 */
+     -moz-border-radius: 0.2em; /* FF1-3.6 */
+          border-radius: 0.2em; /* Opera 10.5, IE9, Saf5, Chrome, FF4, iOS 4, Android 2.1+ */}
+
+input[type=text] {
+  max-width: 600px;
+  border: 2px #ddd solid;
+}
+
+#submit {
+  color: #eee; 
+  background-color: #18a5cc;
+  border: none;
+
+  background-color: #F85E2A;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#F85E2A), to(#EF372E)); /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, #F85E2A, #EF372E); /* Chrome 10+, Saf5.1+, iOS 5+ */
+  background-image:    -moz-linear-gradient(top, #F85E2A, #EF372E); /* FF3.6 */
+  background-image:     -ms-linear-gradient(top, #F85E2A, #EF372E); /* IE10 */
+  background-image:      -o-linear-gradient(top, #F85E2A, #EF372E); /* Opera 11.10+ */
+  background-image:         linear-gradient(to bottom, #F85E2A, #EF372E);
+}
+
 .error {
   color: red;
 }
@@ -53,33 +84,46 @@ dt {
   padding-left: 0;
 }
 
-  .tablinks li {
-    display: inline;
-    padding: 0 1em;
-  }
-
-.tabs {
-  
+.tablinks li {
+  display: inline;
+  padding: 0 1em;
 }
 
 .tabs div {
-  display:none;
+  display: none;
 }
 
 .tabs div:target {
-  display:block;
+  display: block;
 }
 
+footer {
+  margin-top: 2em;
+}
 
-#footer {
+footer nav {
 	margin: 1em 0;
 	border-top: 1px dotted #666;
   border-bottom: 1px dotted #666;
 	font-size: 0.8em;
 }
 
-#footer .copy {
+footer ul {
+  list-style-type: none;
+  margin: 1em 0;
+  padding: 0;
+}
+
+footer li {
+  display: inline-block;
+  padding: 0 1em 0 0;
+}
+
+footer .poweredby {
   float: right;
+  padding: 0 20px 0 1em;
+  background: url(img/casimir.png) no-repeat right;
+  background-size: 16px 16px;
 }
 
 #bookmarklet a {
