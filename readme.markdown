@@ -12,6 +12,8 @@ The development is [hosted on GitHub](http://github.com/nhoizey/flickrSuggest), 
 
 *Disclaimer:* I didn't try to follow any PHP golden development rules, it just had to work as I needed.
 
+Follow [Cas.im/ir on Twitter](http://twitter.com/cas_im) to be notified of new releases or ask for help.
+
 ## Installation
 
 ### Database creation
