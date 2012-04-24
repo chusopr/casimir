@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Casimir by nhoizey</title>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Casimir</h1>
+        <p>Yet Another URL Shortener</p>
+        <p class="view"><a href="https://github.com/nhoizey/casimir">View the Project on GitHub <small>nhoizey/casimir</small></a></p>
+        <ul>
+          <li><a href="https://github.com/nhoizey/casimir/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/nhoizey/casimir/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/nhoizey/casimir">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p>Cas.im/ir is inspired by — and tries to find its way between — both <a href="http://lilurl.sourceforge.net/">lilURL</a> and <a href="http://xav.cc/">xav.cc</a> 's <a href="http://www.symfony-project.org/plugins/sfShortUrlPlugin">sfShortUrlPlugin</a>, the first lacking some essential features and the later needing a whole <a href="http://www.symfony-project.org/">symfony</a> environment, as the location implies.</p>
+
+<p>Cas.im/ir is both available online at <a href="http://cas.im/">cas.im</a> and as a <a href="https://github.com/nhoizey/casimir/downloads">download</a> for self hosting.</p>
+
+<p>It only needs PHP and MySQL to run. Just install it, following the instructions in the readme file, and enjoy it!</p>
+
+<p>The development is <a href="http://github.com/nhoizey/flickrSuggest">hosted on GitHub</a>, so you can fork it and help me enhance it at will!</p>
+
+<p><em>Disclaimer:</em> I didn't try to follow any PHP golden development rules, it just had to work as I needed.</p>
+
+<p>Follow <a href="http://twitter.com/cas_im">Cas.im/ir on Twitter</a> to be notified of new releases or ask for help.</p>
+
+<h2>Installation</h2>
+
+<h3>Database creation</h3>
+
+<p>Create these tables in your MySQL database:</p>
+
+<pre><code>CREATE TABLE `casimir` (
+  `short_url` varchar(50) NOT NULL DEFAULT '',
+  `long_url` text NOT NULL,
+  `creation_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_use_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `uses` int(11) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`short_url`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `casimir_stats` (
+  `short_url` varchar(50) NOT NULL default '',
+  `use_date` timestamp NOT NULL default '0000-00-00 00:00:00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+</code></pre>
+
+<h3>Configuration</h3>
+
+<p>Copy <code>user/casimir-conf.php.example</code> to <code>user/casimir-conf.php</code> and edit the configuration settings.</p>
+
+<p>Rename <code>htaccess</code> to <code>.htaccess</code> according to your settings.</p>
+
+<h3>Personalization</h3>
+
+<p>Optionnaly, you can add</p>
+
+<ul>
+<li>a <code>user/footer.php</code> script that will be added after Cas.im/ir's footer</li>
+<li>a <code>user/screen.css</code> stylesheet that will be loaded after Cas.im/ir's one</li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/nhoizey">nhoizey</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
