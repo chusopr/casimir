@@ -8,11 +8,15 @@ Cas.im/ir is both available online at [cas.im](http://cas.im/) and as a [downloa
 
 It only needs PHP and MySQL to run. Just install it, following the instructions in the readme file, and enjoy it!
 
-The development is [hosted on GitHub](http://github.com/nhoizey/flickrSuggest), so you can fork it and help me enhance it at will!
+The development is [hosted on GitHub](http://github.com/nhoizey/casimir), so you can fork it and help me enhance it at will!
 
 *Disclaimer:* I didn't try to follow any PHP golden development rules, it just had to work as I needed.
 
 Follow [Cas.im/ir on Twitter](http://twitter.com/cas_im) to be notified of new releases or ask for help.
+
+## License
+
+See the included [LICENSE.md](https://github.com/nhoizey/casimir/blob/master/LICENSE.md) file.
 
 ## Installation
 
