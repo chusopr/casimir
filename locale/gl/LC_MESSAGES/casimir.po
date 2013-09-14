@@ -1,0 +1,150 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Casimir 1.1\n"
+"Report-Msgid-Bugs-To: translations@chuso.net\n"
+"POT-Creation-Date: 2013-09-14 21:18+0100\n"
+"PO-Revision-Date: 2013-09-14 21:31+0100\n"
+"Last-Translator: Jesús Pérez (Chuso) <translations@chuso.net>\n"
+"Language-Team: Jesús Pérez (Chuso) <translations@chuso.net>\n"
+"Language: gl_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: stats.php:9
+msgid "Most followed short URLs"
+msgstr "URL curtas máis visitadas:"
+
+#: stats.php:11
+#: stats.php:18
+msgid "Last day"
+msgstr "Último día"
+
+#: stats.php:12
+#: stats.php:24
+msgid "Last week"
+msgstr "Última semana"
+
+#: stats.php:13
+#: stats.php:30
+msgid "Last month"
+msgstr "Último mes"
+
+#: stats.php:14
+#: stats.php:36
+msgid "Ever"
+msgstr "Todo"
+
+#: tools.php:9
+#: inc/footer.php:5
+msgid "Tools"
+msgstr "Ferramentas"
+
+#: tools.php:10
+msgid "Bookmarklet"
+msgstr "Bookmarklet"
+
+#: tools.php:11
+#, php-format
+msgid "Drag this bookmarklet into your toolbar: %s"
+msgstr "Arrastra este enlace á túa barra de ferramentas: %s"
+
+#: inc/footer.php:4
+msgid "Home"
+msgstr "Inicio"
+
+#: inc/footer.php:6
+msgid "Stats"
+msgstr "Estatísticas"
+
+#: inc/footer.php:7
+#, php-format
+msgid "Powered by %s"
+msgstr "Powered by %s"
+
+#: inc/conf.php:5
+#, php-format
+msgid "This instance of %s is not yet configured."
+msgstr "Esta instalación de %s todavía non foi configurada."
+
+#: inc/Casimir.php:12
+msgid "Could not connect to database"
+msgstr "Non es puido conectar á base de datos."
+
+#: inc/Casimir.php:13
+msgid "Could not select database"
+msgstr "Non se puido seleccionar a base de datos."
+
+#: inc/Casimir.php:89
+msgid "Sorry, but this short URL isn't in our database."
+msgstr "Esta URL curta non está na nosa base de datos."
+
+#: inc/Casimir.php:95
+msgid "This Casimir instance is protected, you need an access key!"
+msgstr "Esta instalación de Casimir está protexida, precisa dunha clave de acceso!"
+
+#: inc/Casimir.php:119
+msgid "Enter a long URL:"
+msgstr "Introduza a URL longa:"
+
+#: inc/Casimir.php:121
+msgid "Optionally, define your own short URL:"
+msgstr "Opcionalmente, escolla a URL curta desexada:"
+
+#: inc/Casimir.php:124
+msgid "Create!"
+msgstr "Crear!"
+
+#: inc/Casimir.php:133
+msgid "Do you want to define your own short URL? (leave empty if you don\\'t)"
+msgstr "Queres elixir a túa propia URL curta? (deixa en branco se non o desexas)"
+
+#: inc/Casimir.php:163
+msgid "You must at least enter a long URL!"
+msgstr "Tes que escribir polo menos unha URL longa!"
+
+#: inc/Casimir.php:165
+msgid "Your URL must start with either \"http://\" or \"https://\"!"
+msgstr "A túa URL debe comezar con \"http://\" ou \"https://\"!"
+
+#: inc/Casimir.php:167
+msgid "This is already a shorten URL!"
+msgstr "Esta URL xa está acurtada!"
+
+#: inc/Casimir.php:174
+msgid "This short URL is not authorized!"
+msgstr "A URL curta escollida non está permitida!"
+
+#: inc/Casimir.php:176
+msgid "This short URL is not short enough! Hint: 50 chars allowed..."
+msgstr "A URL curta escollida é demasiado longa! Máximo 50 caracteres."
+
+#: inc/Casimir.php:184
+msgid "A short URL already exists for this long URL:"
+msgstr "Xa existe una URL curta para esta URL longa:"
+
+#: inc/Casimir.php:192
+#: inc/Casimir.php:208
+#: inc/Casimir.php:218
+msgid "Congratulations, you created this new short URL:"
+msgstr "Creaches con éxito a seguinte URL curta:"
+
+#: inc/Casimir.php:194
+#: inc/Casimir.php:210
+#: inc/Casimir.php:220
+#, php-format
+msgid "Something went wrong: %s"
+msgstr "Houbo un erro: %s"
+
+#: inc/Casimir.php:199
+msgid "This short URL already exists and is associated with the same long URL:"
+msgstr "Xa existe a URL curta escollida para a misma URL longa:"
+
+#: inc/Casimir.php:202
+msgid "This short URL already exists and is associated with this other long URL:"
+msgstr "Xa existe a URL curta escollida para a seguinte URL longa:"
+
+#: inc/Casimir.php:224
+msgid "This should never happen..."
+msgstr "This should never happen..."
+
