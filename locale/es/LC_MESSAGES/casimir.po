@@ -1,0 +1,150 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Casimir 1.1\n"
+"Report-Msgid-Bugs-To: translations@chuso.net\n"
+"POT-Creation-Date: 2013-09-14 20:39+0100\n"
+"PO-Revision-Date: 2013-09-14 21:31+0100\n"
+"Last-Translator: Jesús Pérez (Chuso) <translations@chuso.net>\n"
+"Language-Team: Jesús Pérez (Chuso) <translations@chuso.net>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: stats.php:9
+msgid "Most followed short URLs"
+msgstr "URL cortas más visitadas:"
+
+#: stats.php:11
+#: stats.php:18
+msgid "Last day"
+msgstr "Último día"
+
+#: stats.php:12
+#: stats.php:24
+msgid "Last week"
+msgstr "Última semana"
+
+#: stats.php:13
+#: stats.php:30
+msgid "Last month"
+msgstr "Último mes"
+
+#: stats.php:14
+#: stats.php:36
+msgid "Ever"
+msgstr "Todo"
+
+#: tools.php:9
+#: inc/footer.php:5
+msgid "Tools"
+msgstr "Herramientas"
+
+#: tools.php:10
+msgid "Bookmarklet"
+msgstr "Bookmarklet"
+
+#: tools.php:11
+#, php-format
+msgid "Drag this bookmarklet into your toolbar: %s"
+msgstr "Arrastra este enlace a tu barra de herramientas: %s"
+
+#: inc/footer.php:4
+msgid "Home"
+msgstr "Inicio"
+
+#: inc/footer.php:6
+msgid "Stats"
+msgstr "Estadísticas"
+
+#: inc/footer.php:7
+#, php-format
+msgid "Powered by %s"
+msgstr "Powered by %s"
+
+#: inc/conf.php:5
+#, php-format
+msgid "This instance of %s is not yet configured."
+msgstr "Esta instalación de %s todavía no ha sido configurada."
+
+#: inc/Casimir.php:13
+msgid "Could not connect to database"
+msgstr "No es posible conectar con la base de datos."
+
+#: inc/Casimir.php:14
+msgid "Could not select database"
+msgstr "No es posible seleccionar la base de datos."
+
+#: inc/Casimir.php:90
+msgid "Sorry, but this short URL isn't in our database."
+msgstr "Esta URL corta no está en nuestra base de datos."
+
+#: inc/Casimir.php:96
+msgid "This Casimir instance is protected, you need an access key!"
+msgstr "¡Esta instalación de Casimir está protegida, necesitas una clave de acceso!"
+
+#: inc/Casimir.php:120
+msgid "Enter a long URL:"
+msgstr "Introduzca URL larga:"
+
+#: inc/Casimir.php:122
+msgid "Optionally, define your own short URL:"
+msgstr "Opcionalmente, escoge la URL corta deseada:"
+
+#: inc/Casimir.php:125
+msgid "Create!"
+msgstr "¡Crear!"
+
+#: inc/Casimir.php:134
+msgid "Do you want to define your own short URL? (leave empty if you don\\'t)"
+msgstr "¿Quieres elegir tu propia URL corta? (deja en blanco si no quieres)"
+
+#: inc/Casimir.php:164
+msgid "You must at least enter a long URL!"
+msgstr "¡Debes al menos introducir una URL larga!"
+
+#: inc/Casimir.php:166
+msgid "Your URL must start with either \"http://\" or \"https://\"!"
+msgstr "¡Tu URL debe empezar con \"http://\" o \"https://\"!"
+
+#: inc/Casimir.php:168
+msgid "This is already a shorten URL!"
+msgstr "¡Esta URL ya está acortada!"
+
+#: inc/Casimir.php:175
+msgid "This short URL is not authorized!"
+msgstr "¡La URL corta elegida no está permitida!"
+
+#: inc/Casimir.php:177
+msgid "This short URL is not short enough! Hint: 50 chars allowed..."
+msgstr "¡La URL corta elegida es demasiado larga! Máximo 50 caracteres."
+
+#: inc/Casimir.php:185
+msgid "A short URL already exists for this long URL:"
+msgstr "Ya existe una URL corta para la URL larga introducida:"
+
+#: inc/Casimir.php:193
+#: inc/Casimir.php:209
+#: inc/Casimir.php:219
+msgid "Congratulations, you created this new short URL:"
+msgstr "Has creado con éxito la siguiente URL corta:"
+
+#: inc/Casimir.php:195
+#: inc/Casimir.php:211
+#: inc/Casimir.php:221
+#, php-format
+msgid "Something went wrong: %s"
+msgstr "Se ha producido un error: %s"
+
+#: inc/Casimir.php:200
+msgid "This short URL already exists and is associated with the same long URL:"
+msgstr "Ya existe la URL corta elegida y está asociada con la misma URL larga:"
+
+#: inc/Casimir.php:203
+msgid "This short URL already exists and is associated with this other long URL:"
+msgstr "Ya existe la URL corta elegida y está asociada con la siguiente URL larga:"
+
+#: inc/Casimir.php:225
+msgid "This should never happen..."
+msgstr "This should never happen..."
+
