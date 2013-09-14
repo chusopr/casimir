@@ -1,4 +1,14 @@
 <?php
+
+// Failback _() function if gettext if not supported
+if (!function_exists("_"))
+{
+  function _($s)
+  {
+    return $s;
+  }
+}
+
 class Casimir {
   public $version;
 	public $base_url;
@@ -11,8 +21,8 @@ class Casimir {
 
 	function __construct() {
 	  $this->version = '1.1';
-    mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD) or die('Could not connect to database');
-    mysql_select_db(MYSQL_DATABASE) or die('Could not select database');
+    mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD) or die(_('Could not connect to database'));
+    mysql_select_db(MYSQL_DATABASE) or die(_('Could not select database'));
     $current_dir = dirname($_SERVER['PHP_SELF']);
     if ($current_dir == '/') $current_dir = '';
     $this->base_url = 'http://'.$_SERVER['SERVER_NAME'].$current_dir.'/';
@@ -43,6 +53,59 @@ class Casimir {
           else
             $this->sites[] = $site;
     }
+    $this->setLocale();
+	}
+	
+	private function tryLocale($l)
+	{
+		if (empty($l)) return false;
+
+		// First, test if we support this locale
+		if (
+		     // We may support it with country code: xx_XX
+				 (!file_exists("locale/$l/LC_MESSAGES/casimir.mo")) &&
+				 // Or as a country-less language code: xx
+				 (!file_exists("locale/" . preg_replace("/_.*/", "", $l) . "/LC_MESSAGES/casimir.mo"))
+			 )
+			return false;
+
+		if (!@setlocale(LC_ALL, $l))
+			return false;
+
+		putenv("LC_ALL=$l");
+
+		bindtextdomain("casimir", "locale");
+		textdomain("casimir");
+
+		return true;
+	}
+
+	private function setLocale()
+	{
+		// Check if user has provided its list of preferred languages
+		if (empty($_SERVER["HTTP_ACCEPT_LANGUAGE"]))
+			return false;
+
+		// Let's try if we support user preferred language
+		if (
+				 (class_exists("Locale")) &&
+				 ($this->tryLocale(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE'])))
+			 )
+		return true;
+
+		// Get list of preferred languages as provided by user to try them all
+		$languages = explode(",", $_SERVER["HTTP_ACCEPT_LANGUAGE"]);
+		if ((!empty($languages)) && (is_array($languages)))
+			// Iterate over languages to find the first we support
+			foreach ($languages as $l)
+			{
+			  // Convert Accept-Language language to a locale one
+				$l = preg_replace(array("/;.*/", "/-/"), array("", "_"), $l);
+				if ($this->tryLocale($l))
+					return true;
+			}
+
+		return false;
 	}
 
   function handleRequest() {
@@ -81,13 +144,13 @@ class Casimir {
 		    exit;
 		  } else {
 		    $this->ok = false;
-		    $this->msg = 'Sorry, but this short URL isn\'t in our database.';
+		    $this->msg = _('Sorry, but this short URL isn\'t in our database.');
 		  }
 		}
 		
 		if (defined('ACCESS_KEY') && ACCESS_KEY != '' && ACCESS_KEY != $this->access_key) {
 		  $this->ok = false;
-		  $this->msg = 'This Casimir instance is protected, you need an access key!';
+		  $this->msg = _('This Casimir instance is protected, you need an access key!');
 		} else {
 		  if (isset($_POST['long'])) {
         if ((array_key_exists("site", $_POST)) && (trim($_POST["site"]) != "") && (in_array($_POST["site"], $this->sites)))
@@ -113,7 +176,7 @@ class Casimir {
       }
       ?>
       <dl>
-        <dt><label for="long">Enter a long URL:</label></dt>
+        <dt><label for="long"><?php echo _("Enter a long URL:"); ?></label></dt>
         <dd><input type="text" name="long" id="long" size="80" value="<?php echo ($this->ok ? '' : (isset($_POST['long']) ? $_POST['long'] : (isset($_GET['long']) ? $_GET['long'] : ''))); ?>" /></dd>
         <dt><label for="short">Optionally, define your own short URL:</label></dt>
         <dd><?php 
@@ -154,16 +217,18 @@ class Casimir {
           echo $this->separator;
         ?><input type="text" name="short" id="short" size="20" maxlength="255" value="<?php echo ($this->ok ? '' : (isset($_POST['short']) ? $_POST['short'] : (isset($_GET['short']) ? $_GET['short'] : ''))); ?>" /></dd>
         <dt></dt>
-        <dd class="center"><input type="submit" name="submit" id="submit" value="Create!" /></dd>
+        <dd class="center"><input type="submit" name="submit" id="submit" value="<?php echo _("Create!"); ?>" /></dd>
       </dl>
     </form>
   	<?php
   }
 
   function showBookmarklet() {
+  	ob_start();
   	?>
-  	<a href="javascript:var url='<?php echo $this->base_url; ?>?<?php if (defined('ACCESS_KEY') && ACCESS_KEY != '' && ACCESS_KEY == $this->access_key) { echo 'access_key='.ACCESS_KEY.'&'; } ?>long='+encodeURIComponent(location.host=='maps.google.com'?document.getElementById('link').href:location.href);var short=prompt('Do you want to define your own short URL? (leave empty if you don\'t)','');if(short!=''){url=url+'&amp;short='+short;}location.href=url;">+Casimir</a>
+  	<a href="javascript:var url='<?php echo $this->base_url; ?>?<?php if (defined('ACCESS_KEY') && ACCESS_KEY != '' && ACCESS_KEY == $this->access_key) { echo 'access_key='.ACCESS_KEY.'&'; } ?>long='+encodeURIComponent(location.host=='maps.google.com'?document.getElementById('link').href:location.href);var short=prompt('<?php echo _("Do you want to define your own short URL? (leave empty if you don\'t)"); ?>','');if(short!=''){url=url+'&amp;short='+short;}location.href=url;">+Casimir</a>
   	<?php
+  	return ob_get_clean();
   }
   
   function getShort($site, $long) {
@@ -191,11 +256,11 @@ class Casimir {
   function addUrl($long, $site, $short = '') {
     $long = trim(mysql_real_escape_string($long));
     if ($long == '') {
-      return array(false, '', 'You must at least enter a long URL!');
+      return array(false, '', _('You must at least enter a long URL!'));
     } elseif (!preg_match("#^https?://#i", $long)) {
-      return array(false, '', 'Your URL must start with either "http://" or "https://"!');
+      return array(false, '', _('Your URL must start with either "http://" or "https://"!'));
     } elseif (substr($long, 0, strlen($this->base_url)) == $this->base_url) { // TODO: multisite
-      return array(false, '', 'This is already a shorten URL!');
+      return array(false, '', _('This is already a shorten URL!'));
     }
 
     $existing_short = $this->getShort($site, $long);
@@ -203,9 +268,9 @@ class Casimir {
     $site = trim(mysql_real_escape_string($site));
     if ($short != '') {
     	if (!preg_match("#^[a-zA-Z0-9_-]+$#", $short)) {
-        return array(false, '', 'This short URL is not authorized!');
+        return array(false, '', _('This short URL is not authorized!'));
     	} elseif (strlen($short) > 50) {
-        return array(false, '', 'This short URL is not short enough! Hint: 50 chars allowed...');
+        return array(false, '', _('This short URL is not short enough! Hint: 50 chars allowed...'));
     	}
     }
     $existing_long = $this->getLong($site, $short);
@@ -213,7 +278,7 @@ class Casimir {
     	case ($short == '' && $existing_short):
     		$short = $existing_short;
         $short_url = "http://$site{$this->separator}$short";
-        return array(true, $short, 'A short URL already exists for this long URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
+        return array(true, $short, _('A short URL already exists for this long URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>');
     		break;
     	case ($short == '' && !$existing_short):
 	      $short = $this->getRandomShort($site);
@@ -223,23 +288,22 @@ class Casimir {
 	        $short_url = "http://$site{$this->separator}$short";
 	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
 	      } else {
-	        return array(false, $short, 'Something went wrong: '.mysql_error());
+	        return array(false, $short, sprintf(_('Something went wrong: %s'), mysql_error()));
 	      }
     		break;
     	case ($short != '' && $existing_long && $long == $existing_long):
     	  $short_url = "http://$site{$this->separator}$short";
-        return array(true, $short, 'This short URL already exists and is associated with the same long URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
+        return array(true, $short, _('This short URL already exists and is associated with the same long URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>');
     		break;
     	case ($short != '' && $existing_long && $existing_long != $long):
-        return array(false, $short, 'This short URL already exists and is associated with this other long URL:<br /><a href="'.$existing_long.'">'.$existing_long.'</a>');
+        return array(false, $short, _('This short URL already exists and is associated with this other long URL:') . '<br /><a href="'.$existing_long.'">'.$existing_long.'</a>');
     		break;
     	case ($short != '' && !$existing_short):
 	      $query = "INSERT INTO casimir (site, short_url, long_url, creation_date) VALUES ('{$site}', '{$short}', '{$long}', NOW())";
         if (mysql_query($query)) {
-          $short_url = "http://$site{$this->separator}$short";
 	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
         } else {
-          return array(false, $short, 'Something went wrong: '.mysql_error());
+          return array(false, $short, sprintf(_('Something went wrong: %s'), mysql_error()));
         }
     		break;
     	case ($short != '' && !$existing_long):
@@ -247,13 +311,13 @@ class Casimir {
 	      $query = "INSERT INTO casimir (site, short_url, long_url, creation_date, title_url ) VALUES ('{$site}', '{$short}', '{$long}', NOW())";
         if (mysql_query($query)) {
           $short_url = "http://$site{$this->separator}$short";
-	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
+	        return array(true, $short, _('Congratulations, you created this new short URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>');
         } else {
-          return array(false, $short, 'Something went wrong: '.mysql_error());
+          return array(false, $short, sprintf(_('Something went wrong: %s'), mysql_error()));
         }
      		break;
  		}
- 		return array(false, '', 'This should never happen...');
+ 		return array(false, '', _('This should never happen...'));
   }
   
   function getRandomShort($site) {
@@ -294,4 +358,3 @@ class Casimir {
     return $this->getMostUsedSinceDate(date("Y-m-d H:i:s", time() - $days * 24*60*60), $nb);
   }
 }
-?>
