@@ -146,7 +146,7 @@ class Casimir {
   function showBookmarklet() {
   	ob_start();
   	?>
-  	<a href="javascript:var url='<?php echo $this->base_url; ?>?<?php if (defined('ACCESS_KEY') && ACCESS_KEY != '' && ACCESS_KEY == $this->access_key) { echo 'access_key='.ACCESS_KEY.'&'; } ?>long='+encodeURIComponent(location.host=='maps.google.com'?document.getElementById('link').href:location.href);var short=prompt('<?php echo _("Do you want to define your own short URL? (leave empty if you don\'t)"); ?>','');if(short!=''){url=url+'&amp;short='+short;}location.href=url;">+Casimir</a>
+  	<a href="javascript:var url='<?php echo $this->base_url; ?>?<?php if (defined('ACCESS_KEY') && ACCESS_KEY != '' && ACCESS_KEY == $this->access_key) { echo 'access_key='.ACCESS_KEY.'&'; } ?>long='+encodeURIComponent(location.host=='maps.google.com'?document.getElementById('link').href:location.href);var short=prompt('<?php echo _("Do you want to define your own short URL? (leave empty if you don\'t)"); ?>','');if(short!=''){url=url+'&amp;short='+short;}location.href=url;">+<?php echo INSTANCE_NAME; ?></a>
   	<?php
   	return ob_get_clean();
   }
