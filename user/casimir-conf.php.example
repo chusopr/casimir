@@ -16,4 +16,7 @@ define('ACCESS_KEY', '');
 
 // Default API format ('text' or 'xml')
 define('DEFAULT_API_FORMAT', 'text');
-?>
+
+// Meta tags
+define('TITLE', INSTANCE_NAME . ' - URL shortener');
+define('DESCRIPTION', 'Open source URL shortener');
