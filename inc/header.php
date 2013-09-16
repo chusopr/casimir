@@ -2,7 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-	<title><?php echo INSTANCE_NAME; ?></title>
+	<title><?php echo ((defined('TITLE')) && (trim(TITLE) != "")) ? TITLE : INSTANCE_NAME; ?></title>
+	<?php
+		if ((defined('DESCRIPTION')) && (trim(DESCRIPTION) != ""))
+		{
+		?>
+			<meta name="description" content="<?php echo DESCRIPTION; ?>"/>
+		<?php
+		}
+	?>
 	<link rel="stylesheet" type="text/css" media="screen" href="screen.css" />
 	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
   <?php

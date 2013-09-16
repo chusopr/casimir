@@ -17,6 +17,10 @@ define('ACCESS_KEY', '');
 // Default API format ('text' or 'xml')
 define('DEFAULT_API_FORMAT', 'text');
 
+// Meta tags
+define('TITLE', INSTANCE_NAME . ' - URL shortener');
+define('DESCRIPTION', 'Open source URL shortener');
+
 // If this installation is available through different URLs, you can
 // set them here so they can work as a cluster of different sites
 // Note: www.example.com and example.com will be treated as the same site
