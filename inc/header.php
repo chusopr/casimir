@@ -14,4 +14,27 @@
 
 <body onload="document.getElementById('long').focus();">
 	<div id="main">
-		<h1><a href="<?php echo $casimir->base_url; ?>"><?php echo INSTANCE_NAME; ?></a></h1>
+		<div style="float: left">
+			<script type="text/javascript"><!--
+				google_ad_client = "ca-pub-9329384101419370";
+				/* alar.ga */
+				google_ad_slot = "3101107745";
+				google_ad_width = 728;
+				google_ad_height = 90;
+				//-->
+			</script>
+			<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
+
+			<form action="http://www.google.es" id="cse-search-box">
+				<div>
+					<input type="hidden" name="cx" value="partner-pub-9329384101419370:4298639347" />
+					<input type="hidden" name="ie" value="UTF-8" />
+					<label>Buscar en Internet:</label> <input type="text" name="q" size="20" />
+					<input type="submit" name="sa" value="Buscar" />
+				</div>
+			</form>
+			<script type="text/javascript" src="http://www.google.es/coop/cse/brand?form=cse-search-box&amp;lang=es"></script>
+
+			<h1><a href="<?php echo $casimir->base_url; ?>"><?php echo INSTANCE_NAME; ?></a></h1>
