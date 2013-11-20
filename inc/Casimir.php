@@ -178,7 +178,7 @@ class Casimir {
       <dl>
         <dt><label for="long"><?php echo _("Enter a long URL:"); ?></label></dt>
         <dd><input type="text" name="long" id="long" size="80" value="<?php echo ($this->ok ? '' : (isset($_POST['long']) ? $_POST['long'] : (isset($_GET['long']) ? $_GET['long'] : ''))); ?>" /></dd>
-        <dt><label for="short">Optionally, define your own short URL:</label></dt>
+        <dt><label for="short"><?php echo _("Optionally, define your own short URL:"); ?></label></dt>
         <dd><?php 
           // Decide if we let user choose among different sites
 
@@ -286,7 +286,7 @@ class Casimir {
 	      $query = "INSERT INTO casimir (site, short_url, long_url, creation_date) VALUES ('{$site}', '{$short}', '{$long}', NOW())";
 	      if (mysql_query($query)) {
 	        $short_url = "http://$site{$this->separator}$short";
-	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
+	        return array(true, $short, _('Congratulations, you created this new short URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>');
 	      } else {
 	        return array(false, $short, sprintf(_('Something went wrong: %s'), mysql_error()));
 	      }
@@ -301,7 +301,8 @@ class Casimir {
     	case ($short != '' && !$existing_short):
 	      $query = "INSERT INTO casimir (site, short_url, long_url, creation_date) VALUES ('{$site}', '{$short}', '{$long}', NOW())";
         if (mysql_query($query)) {
-	        return array(true, $short, 'Congratulations, you created this new short URL:<br /><a href="'.$short_url.'">'.$short_url.'</a>');
+    	  $short_url = "http://$site{$this->separator}$short";
+	        return array(true, $short, _('Congratulations, you created this new short URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>');
         } else {
           return array(false, $short, sprintf(_('Something went wrong: %s'), mysql_error()));
         }
