@@ -49,7 +49,7 @@ class Casimir {
 			 )
 			return false;
 
-		if (!@setlocale(LC_ALL, $l))
+		if (!@setlocale(LC_ALL, "$l.utf8"))
 			return false;
 
 		putenv("LC_ALL=$l");
