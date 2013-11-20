@@ -135,7 +135,13 @@ class Casimir {
               {
                 $site = rtrim($site, "/");
                 echo "<option ";
-                if (preg_replace("-^www\.-i", "", $site) == preg_replace(array("-^http://-i", "-^www\.-", "-/+$-"), "", $this->base_url))
+                if (
+		     (preg_replace("-^www\.-i", "", $site) == preg_replace(array("-^http://-i", "-^www\.-", "-/+$-"), "", $this->base_url)) ||
+		     (
+                       (function_exists("idn_to_ascii")) && // Check for IDN support
+		       (idn_to_ascii(preg_replace("-^www\.-i", "", $site)) == preg_replace(array("-^http://-i", "-^www\.-", "-/+$-"), "", $this->base_url))
+		     )
+		   )
                   echo 'selected="selected" ';
                 echo "value='$site'>$site</option>";
               }
