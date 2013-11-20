@@ -25,6 +25,7 @@ See the included [LICENSE.md](https://github.com/nhoizey/casimir/blob/master/LIC
 Create these tables in your MySQL database:
 
     CREATE TABLE `casimir` (
+      `site` varchar(255) NOT NULL DEFAULT '',
       `short_url` varchar(50) NOT NULL DEFAULT '',
       `long_url` text NOT NULL,
       `creation_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -34,6 +35,7 @@ Create these tables in your MySQL database:
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
   
     CREATE TABLE `casimir_stats` (
+      `site` varchar(255) NOT NULL DEFAULT '',
       `short_url` varchar(50) NOT NULL default '',
       `use_date` timestamp NOT NULL default '0000-00-00 00:00:00'
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

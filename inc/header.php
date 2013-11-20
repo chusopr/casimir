@@ -4,6 +4,7 @@
 <head>
 	<title><?php echo INSTANCE_NAME; ?></title>
 	<link rel="stylesheet" type="text/css" media="screen" href="screen.css" />
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
   <?php
   if (file_exists('user/screen.css')) {
   	echo '<link rel="stylesheet" type="text/css" media="screen" href="user/screen.css" />';
