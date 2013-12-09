@@ -21,8 +21,8 @@ class Casimir {
 
 	function __construct() {
 	  $this->version = '1.1';
-    mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD) or die(_('Could not connect to database'));
-    mysql_select_db(MYSQL_DATABASE) or die(_('Could not select database'));
+    mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD) or $this->error500(_('Could not connect to database'));
+    mysql_select_db(MYSQL_DATABASE) or $this->error500(_('Could not select database'));
     $current_dir = dirname($_SERVER['PHP_SELF']);
     if ($current_dir == '/') $current_dir = '';
     $this->base_url = 'http://'.$_SERVER['SERVER_NAME'].$current_dir.'/';
@@ -107,6 +107,13 @@ class Casimir {
 
 		return false;
 	}
+
+  function error500($s) {
+    header("HTTP/1.1 500 Internal Server Error");
+    header("Status: 500 Internal Server Error");
+    trigger_error($s);
+    die($s);
+  }
 
   function handleRequest() {
 		if (preg_match("#^.*/\??([^=]+)$#i", $_SERVER['REQUEST_URI'], $regs)) {
