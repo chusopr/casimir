@@ -133,8 +133,8 @@ msgstr "Creaches con éxito a seguinte URL curta:"
 #: inc/Casimir.php:210
 #: inc/Casimir.php:220
 #, php-format
-msgid "Something went wrong: %s"
-msgstr "Houbo un erro: %s"
+msgid "Something went wrong: %s %s"
+msgstr "Houbo un erro: %s %s"
 
 #: inc/Casimir.php:199
 msgid "This short URL already exists and is associated with the same long URL:"
