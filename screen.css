@@ -67,6 +67,10 @@ input[type=text] {
   background-image:         linear-gradient(to bottom, #F85E2A, #EF372E);
 }
 
+.error, .success {
+  padding-right: 128px;
+}
+
 .error {
   color: red;
 }
