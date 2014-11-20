@@ -228,7 +228,7 @@ class Casimir {
     		break;
     	case ($short != '' && !$existing_long):
     		// Same as previous???
-	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date, title_url ) VALUES ("'.$short.'", "'.$long.'", NOW())';
+	      $query = 'INSERT INTO casimir (short_url, long_url, creation_date) VALUES ("'.$short.'", "'.$long.'", NOW())';
         if (mysql_query($query)) {
           $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
 	        return array(true, $short, _('Congratulations, you created this new short URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>');
