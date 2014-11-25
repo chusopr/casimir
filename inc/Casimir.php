@@ -138,7 +138,16 @@ class Casimir {
         <dt><label for="short"><?php echo _("Optionally, define your own short URL:"); ?></label></dt>
         <dd><?php echo $this->base_url.(USE_REWRITE ? '' : '?'); ?><input type="text" name="short" id="short" size="20" maxlength="255" value="<?php echo ($this->ok ? '' : (isset($_POST['short']) ? $_POST['short'] : (isset($_GET['short']) ? $_GET['short'] : ''))); ?>" /></dd>
         <dt></dt>
-        <dd class="center"><input type="submit" name="submit" id="submit" value="<?php echo _("Create!"); ?>" /></dd>
+	<?php
+	  if (RECAPTCHA)
+	  {
+	  ?>
+            <script src='https://www.google.com/recaptcha/api.js'></script>
+            <dd class="center"><div class="g-recaptcha" data-sitekey="<?php echo RECAPTCHA_KEY; ?>"></div></dd>
+	  <?php
+	  }
+	?>
+	<dd class="center"><input type="submit" name="submit" id="submit" value="<?php echo _("Create!"); ?>" /></dd>
       </dl>
     </form>
   	<?php
@@ -175,6 +184,32 @@ class Casimir {
   }
 
   function addUrl($long, $short = '') {
+    // The CAPTCHA is the first one to be checked. This way, we save database queries
+    if (RECAPTCHA)
+    {
+      if (!array_key_exists('g-recaptcha-response', $_POST))
+        return array(false, '', _('Input provided by user is not valid'));
+      $recaptcha_verify_url = (RECAPTCHA_HTTPS? 'https':'http') . '://www.google.com/recaptcha/api/siteverify';
+      $recaptcha_response = file_get_contents("$recaptcha_verify_url?secret=" . RECAPTCHA_SECRET . "&response={$_POST['g-recaptcha-response']}&remoteip={$_SERVER['REMOTE_ADDR']}");
+      if (empty($recaptcha_response)) return array(false, '', _('An error occurred trying to validate CAPTCHA'));
+      $recaptcha_answer = json_decode($recaptcha_response);
+      if (!$recaptcha_answer->success)
+      {
+        $error_message = sprintf(_('Unknown error: %s'), $recaptcha_answer->{'error-codes'}[0]);
+        switch ($recaptcha_answer->{'error-codes'}[0])
+	{
+	  case 'missing-input-secret':
+	  case 'invalid-input-secret':
+	    $error_message = _('reCAPTCHA account is not correctly configured for this site');
+	    break;
+	  case 'missing-input-response':
+	  case 'invalid-input-response':
+	    $error_message = _('Input provided by user is not valid');
+	    break;
+	}
+        return array(false, '', $error_message);
+      }
+    }
     $long = trim($this->db->real_escape_string($long));
     if ($long == '') {
       return array(false, '', _('You must at least enter a long URL!'));
