@@ -13,23 +13,23 @@
 
   <description xml:lang="en">Cas.im/ir is a simple to install and use URL shortener, that let the user set the short URL he wants. It only needs PHP and MySQL to run.</description>
 
-  <wiki rdf:resource="http://wiki.github.com/nhoizey/casimir" />
+  <wiki rdf:resource="http://wiki.github.com/chusopr/casimir" />
 
   <wiki
-    rdf:resource="http://wiki.github.com/nhoizey/casimir/wikis.atom"
+    rdf:resource="http://wiki.github.com/chusopr/casimir/wikis.atom"
     dc:format="application/rdf+xml"
   />
 
-  <bug-database rdf:resource="http://github.com/nhoizey/casimir/issues" />
+  <bug-database rdf:resource="http://github.com/chusopr/casimir/issues" />
 
-  <license rdf:resource="http://github.com/nhoizey/casimir/blob/master/license.txt" />
+  <license rdf:resource="http://github.com/chusopr/casimir/blob/master/license.txt" />
 
   <programming-language>PHP</programming-language>
 
   <maintainer>
     <foaf:Person>
-      <foaf:name>Nicolas Hoizey</foaf:name>
-      <foaf:homepage rdf:resource=http://gasteroprod.com/" />
+      <foaf:name>Chuso Pérez</foaf:name>
+      <foaf:homepage rdf:resource=http://chuso.net/" />
     </foaf:Person>
   </maintainer>
 </Project>

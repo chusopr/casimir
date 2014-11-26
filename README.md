@@ -4,11 +4,11 @@
 
 Cas.im/ir is inspired by — and tries to find its way between — both [lilURL](http://lilurl.sourceforge.net/) and [xav.cc](http://xav.cc/) 's [sfShortUrlPlugin](http://www.symfony-project.org/plugins/sfShortUrlPlugin), the first lacking some essential features and the later needing a whole [symfony](http://www.symfony-project.org/) environment, as the location implies.
 
-Cas.im/ir is both available online at [cas.im](http://cas.im/) and as a [download](https://github.com/nhoizey/casimir/downloads) for self hosting.
+Cas.im/ir is both available online at [cas.im](http://cas.im/) and as a [download](https://github.com/chusopr/casimir/releases) for self hosting.
 
 It only needs PHP and MySQL to run. Just install it, following the instructions in the readme file, and enjoy it!
 
-The development is [hosted on GitHub](http://github.com/nhoizey/casimir), so you can fork it and help me enhance it at will!
+The development is [hosted on GitHub](http://github.com/chusopr/casimir), so you can fork it and help me enhance it at will!
 
 *Disclaimer:* I didn't try to follow any PHP golden development rules, it just had to work as I needed.
 
@@ -16,7 +16,7 @@ Follow [Cas.im/ir on Twitter](http://twitter.com/cas_im) to be notified of new r
 
 ## License
 
-See the included [LICENSE.md](https://github.com/nhoizey/casimir/blob/master/LICENSE.md) file.
+See the included [LICENSE.md](https://github.com/chusopr/casimir/blob/master/LICENSE.md) file.
 
 ## Installation
 
