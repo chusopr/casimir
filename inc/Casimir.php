@@ -1,6 +1,6 @@
 <?php
 
-// Failback _() function if gettext if not supported
+// Failback _() function if gettext is not supported
 if (!function_exists("_"))
 {
   function _($s)
