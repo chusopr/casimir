@@ -3,15 +3,15 @@
   xmlns:foaf="http://xmlns.com/foaf/0.1/">
 
 <Project>
-  <name>Cas.im/ir</name>
-  <homepage rdf:resource="http://cas.im/ir"/>
+  <name>Casim.ir</name>
+  <homepage rdf:resource="http://casim.ir"/>
   <created>2009-09-30</created>
 
-  <shortname>Cas.im/ir</shortname>
+  <shortname>Casim.ir</shortname>
 
   <shortdesc xml:lang="en">Yet Another URL Shortener</shortdesc> 
 
-  <description xml:lang="en">Cas.im/ir is a simple to install and use URL shortener, that let the user set the short URL he wants. It only needs PHP and MySQL to run.</description>
+  <description xml:lang="en">Casim.ir is a simple to install and use URL shortener, that let the user set the short URL he wants. It only needs PHP and MySQL to run.</description>
 
   <wiki rdf:resource="http://wiki.github.com/chusopr/casimir" />
 

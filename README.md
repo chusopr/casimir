@@ -1,10 +1,10 @@
-# Cas.im/ir
+# Casim.ir
 
 ## Yet Another URL Shortener (or Shrinker)
 
-Cas.im/ir is inspired by — and tries to find its way between — both [lilURL](http://lilurl.sourceforge.net/) and [xav.cc](http://xav.cc/) 's [sfShortUrlPlugin](http://www.symfony-project.org/plugins/sfShortUrlPlugin), the first lacking some essential features and the later needing a whole [symfony](http://www.symfony-project.org/) environment, as the location implies.
+Casim.ir is inspired by — and tries to find its way between — both [lilURL](http://lilurl.sourceforge.net/) and [xav.cc](http://xav.cc/) 's [sfShortUrlPlugin](http://www.symfony-project.org/plugins/sfShortUrlPlugin), the first lacking some essential features and the later needing a whole [symfony](http://www.symfony-project.org/) environment, as the location implies.
 
-Cas.im/ir is both available online at [cas.im](http://cas.im/) and as a [download](https://github.com/chusopr/casimir/releases) for self hosting.
+Casim.ir is both available online at [casim.ir](http://casim.ir/) and as a [download](https://github.com/chusopr/casimir/releases) for self hosting.
 
 It only needs PHP and MySQL to run. Just install it, following the instructions in the readme file, and enjoy it!
 
@@ -12,7 +12,7 @@ The development is [hosted on GitHub](http://github.com/chusopr/casimir), so you
 
 *Disclaimer:* I didn't try to follow any PHP golden development rules, it just had to work as I needed.
 
-Follow [Cas.im/ir on Twitter](http://twitter.com/cas_im) to be notified of new releases or ask for help.
+Follow [Casim.ir on Twitter](http://twitter.com/cas_im) to be notified of new releases or ask for help.
 
 ## License
 
@@ -47,5 +47,5 @@ Rename `htaccess` to `.htaccess` according to your settings.
 ### Personalization
 
 Optionnaly, you can add
-- a `user/footer.php` script that will be added after Cas.im/ir's footer
-- a `user/screen.css` stylesheet that will be loaded after Cas.im/ir's one
+- a `user/footer.php` script that will be added after Casim.ir's footer
+- a `user/screen.css` stylesheet that will be loaded after Casim.ir's one
