@@ -1,5 +1,13 @@
 # Cas.im/ir v2.x
 
+## Cas.im/ir v2.1 (2014/12/04)
+
+- New maintainer (#15)
+- Use mysqli extension instead of deprecated mysql\_\* functions (#14)
+- CAPTCHA support using reCAPTCHA.net
+- Updated project URLs
+- Set up new test site since the old one has expired (https://github.com/chusopr/casimir/issues/15#issuecomment-63443518, #17)
+
 ## Cas.im/ir v2.0 (2012/02/07)
 
 Diet. KISS.

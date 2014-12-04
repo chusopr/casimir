@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Casimir 1.1\n"
+"Project-Id-Version: Casimir 2.1\n"
 "Report-Msgid-Bugs-To: translations@chuso.net\n"
 "POT-Creation-Date: 2014-11-25 21:17+0100\n"
 "PO-Revision-Date: 2014-11-25 21:20+0100\n"

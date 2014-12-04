@@ -19,7 +19,7 @@ class Casimir {
 	private $db;
 
 	function __construct() {
-	  $this->version = '1.1';
+	  $this->version = '2.1';
     $this->db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
     if ($this->db->connect_error) die(_('Could not connect to database'));
     $current_dir = dirname($_SERVER['PHP_SELF']);
