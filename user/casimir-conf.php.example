@@ -2,6 +2,10 @@
 // Instance name
 define('INSTANCE_NAME', 'Cas.im/ir');
 
+// Meta tags
+define('TITLE', INSTANCE_NAME . ' - URL shortener');
+define('DESCRIPTION', 'Open source URL shortener');
+
 // MySQL connection
 define('MYSQL_HOST', 'localhost');
 define('MYSQL_USER', 'root');
