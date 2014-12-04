@@ -4,3 +4,4 @@
 user/*
 !user/*.example
 *.esproj
+!*/.htaccess
