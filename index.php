@@ -13,4 +13,3 @@ require_once 'inc/header.php';
 $casimir->showForm();
 
 require_once 'inc/footer.php';
-?>

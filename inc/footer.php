@@ -1,4 +1,4 @@
-<footer>
+    <footer>
       <nav>
         <ul>
           <li><a href="<?php echo $casimir->base_url; ?>"><?php echo _("Home"); ?></a></li>

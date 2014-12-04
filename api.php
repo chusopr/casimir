@@ -12,7 +12,7 @@ switch($format) {
   case 'text':
     header('Content-type: text/plain; charset=UTF-8');
     if ($casimir->ok) {
-    	echo $casimir->base_url.(USE_REWRITE ? '' : '?').$casimir->short;
+      echo $casimir->base_url.(USE_REWRITE ? '' : '?').$casimir->short;
     } else {
       echo 'Error: '.$casimir->msg;
     }
@@ -25,9 +25,8 @@ switch($format) {
       echo '<msg>'.$casimir->msg.'</msg>';
     }
     if ($casimir->ok) {
-    	echo '<short>'.$casimir->base_url.(USE_REWRITE ? '' : '?').$casimir->short.'</short>';
+      echo '<short>'.$casimir->base_url.(USE_REWRITE ? '' : '?').$casimir->short.'</short>';
     }
     echo '</casimir>';
     break;
 }
-?>
