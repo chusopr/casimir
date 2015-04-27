@@ -89,7 +89,7 @@ class Casimir {
 		return false;
 	}
 
-  function handleRequest() {
+    function handleRequest($api) {
 		if (preg_match("#^.*/\??([^=]+)$#i", $_SERVER['REQUEST_URI'], $regs)) {
 		  $this->short = $this->db->real_escape_string($regs[1]);
 		} else {
@@ -112,9 +112,9 @@ class Casimir {
 		  $this->msg = _('This Casimir instance is protected, you need an access key!');
 		} else {
 		  if (isset($_POST['long'])) {
-		    list($this->ok, $this->short, $this->msg) = $this->addUrl($_POST['long'], isset($_POST['short']) && !is_null($_POST['short']) && $_POST['short'] != 'null' ? $_POST['short'] : '');
+		    list($this->ok, $this->short, $this->msg) = $this->addUrl($_POST['long'], isset($_POST['short']) && !is_null($_POST['short']) && $_POST['short'] != 'null' ? $_POST['short'] : '', $api);
 		  } elseif (isset($_GET['long'])) {
-		    list($this->ok, $this->short, $this->msg) = $this->addUrl($_GET['long'], isset($_GET['short']) && !is_null($_GET['short']) && $_GET['short'] != 'null' ? $_GET['short'] : '');
+		    list($this->ok, $this->short, $this->msg) = $this->addUrl($_GET['long'], isset($_GET['short']) && !is_null($_GET['short']) && $_GET['short'] != 'null' ? $_GET['short'] : '', $api);
 		  }
 		}
   }
@@ -183,9 +183,9 @@ class Casimir {
     }
   }
 
-  function addUrl($long, $short = '') {
+  function addUrl($long, $short = '', $api = false) {
     // The CAPTCHA is the first one to be checked. This way, we save database queries
-    if (RECAPTCHA)
+    if (RECAPTCHA && $api==false)
     {
       if (!array_key_exists('g-recaptcha-response', $_POST))
         return array(false, '', _('Input provided by user is not valid'));
