@@ -18,6 +18,9 @@ define('USE_REWRITE', false);
 // restrict access?
 define('ACCESS_KEY', '');
 
+//protect API access?
+define('API_KEY', '');
+
 // Default API format ('text' or 'xml')
 define('DEFAULT_API_FORMAT', 'text');
 
