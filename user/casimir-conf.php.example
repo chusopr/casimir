@@ -18,6 +18,12 @@ define('USE_REWRITE', false);
 // restrict access?
 define('ACCESS_KEY', '');
 
+// Protect API access by password.
+// If reCAPTCHA is enabled, not setting an API_KEY will actually
+// disable API. Set it to blank string to allow API users to bypass
+// CAPTCHA validation (discouraged).
+// define('API_KEY', '');
+
 // Default API format ('text' or 'xml')
 define('DEFAULT_API_FORMAT', 'text');
 
