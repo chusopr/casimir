@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Casimir 1.1\n"
+"Project-Id-Version: Casimir 2.1\n"
 "Report-Msgid-Bugs-To: translations@chuso.net\n"
-"POT-Creation-Date: 2013-09-14 20:39+0100\n"
-"PO-Revision-Date: 2013-09-14 21:31+0100\n"
+"POT-Creation-Date: 2014-11-25 21:05+0100\n"
+"PO-Revision-Date: 2014-11-25 21:07+0100\n"
 "Last-Translator: Jesús Pérez (Chuso) <translations@chuso.net>\n"
 "Language-Team: Jesús Pérez (Chuso) <translations@chuso.net>\n"
 "Language: es_ES\n"
@@ -67,84 +67,106 @@ msgstr "Powered by %s"
 msgid "This instance of %s is not yet configured."
 msgstr "Esta instalación de %s todavía no ha sido configurada."
 
-#: inc/Casimir.php:13
+#: index.php:9
+msgid ""
+"This site is not correctly configured: reCAPTCHA was enabled but the server "
+"does not met all requirements."
+msgstr ""
+"Este sitio no está correctamente configurado. reCAPTCHA ha sido activado "
+"pero el servidor no satisface todos los requisitos."
+
+#: inc/Casimir.php:24
 msgid "Could not connect to database"
 msgstr "No es posible conectar con la base de datos."
 
-#: inc/Casimir.php:14
-msgid "Could not select database"
-msgstr "No es posible seleccionar la base de datos."
-
-#: inc/Casimir.php:90
+#: inc/Casimir.php:106
 msgid "Sorry, but this short URL isn't in our database."
 msgstr "Esta URL corta no está en nuestra base de datos."
 
-#: inc/Casimir.php:96
+#: inc/Casimir.php:112
 msgid "This Casimir instance is protected, you need an access key!"
 msgstr "¡Esta instalación de Casimir está protegida, necesitas una clave de acceso!"
 
-#: inc/Casimir.php:120
+#: inc/Casimir.php:136
 msgid "Enter a long URL:"
 msgstr "Introduzca URL larga:"
 
-#: inc/Casimir.php:122
+#: inc/Casimir.php:138
 msgid "Optionally, define your own short URL:"
 msgstr "Opcionalmente, escoge la URL corta deseada:"
 
-#: inc/Casimir.php:125
+#: inc/Casimir.php:150
 msgid "Create!"
 msgstr "¡Crear!"
 
-#: inc/Casimir.php:134
+#: inc/Casimir.php:159
 msgid "Do you want to define your own short URL? (leave empty if you don\\'t)"
 msgstr "¿Quieres elegir tu propia URL corta? (deja en blanco si no quieres)"
 
-#: inc/Casimir.php:164
+#: inc/Casimir.php:191
+#: inc/Casimir.php:207
+msgid "Input provided by user is not valid"
+msgstr "Los datos proporcionados por el usuario no son válidos"
+
+#: inc/Casimir.php:194
+msgid "An error occurred trying to validate CAPTCHA"
+msgstr "Ha ocurrido un error intentando validar el CAPTCHA."
+
+#: inc/Casimir.php:198
+#, php-format
+msgid "Unknown error: %s"
+msgstr "Error desconocido: %s"
+
+#: inc/Casimir.php:203
+msgid "reCAPTCHA account is not correctly configured for this site"
+msgstr ""
+"La cuenta de reCAPTCHA no ha sido correctamente configurada para este sitio"
+
+#: inc/Casimir.php:215
 msgid "You must at least enter a long URL!"
 msgstr "¡Debes al menos introducir una URL larga!"
 
-#: inc/Casimir.php:166
+#: inc/Casimir.php:217
 msgid "Your URL must start with either \"http://\" or \"https://\"!"
 msgstr "¡Tu URL debe empezar con \"http://\" o \"https://\"!"
 
-#: inc/Casimir.php:168
+#: inc/Casimir.php:219
 msgid "This is already a shorten URL!"
 msgstr "¡Esta URL ya está acortada!"
 
-#: inc/Casimir.php:175
+#: inc/Casimir.php:226
 msgid "This short URL is not authorized!"
 msgstr "¡La URL corta elegida no está permitida!"
 
-#: inc/Casimir.php:177
+#: inc/Casimir.php:228
 msgid "This short URL is not short enough! Hint: 50 chars allowed..."
 msgstr "¡La URL corta elegida es demasiado larga! Máximo 50 caracteres."
 
-#: inc/Casimir.php:185
+#: inc/Casimir.php:236
 msgid "A short URL already exists for this long URL:"
 msgstr "Ya existe una URL corta para la URL larga introducida:"
 
-#: inc/Casimir.php:193
-#: inc/Casimir.php:209
-#: inc/Casimir.php:219
+#: inc/Casimir.php:244
+#: inc/Casimir.php:260
+#: inc/Casimir.php:270
 msgid "Congratulations, you created this new short URL:"
 msgstr "Has creado con éxito la siguiente URL corta:"
 
-#: inc/Casimir.php:195
-#: inc/Casimir.php:211
-#: inc/Casimir.php:221
+#: inc/Casimir.php:246
+#: inc/Casimir.php:262
+#: inc/Casimir.php:272
 #, php-format
-msgid "Something went wrong: %s"
-msgstr "Se ha producido un error: %s"
+msgid "Something went wrong: %s %s"
+msgstr "Se ha producido un error: %s %s"
 
-#: inc/Casimir.php:200
+#: inc/Casimir.php:251
 msgid "This short URL already exists and is associated with the same long URL:"
 msgstr "Ya existe la URL corta elegida y está asociada con la misma URL larga:"
 
-#: inc/Casimir.php:203
+#: inc/Casimir.php:254
 msgid "This short URL already exists and is associated with this other long URL:"
 msgstr "Ya existe la URL corta elegida y está asociada con la siguiente URL larga:"
 
-#: inc/Casimir.php:225
+#: inc/Casimir.php:276
 msgid "This should never happen..."
 msgstr "This should never happen..."
-

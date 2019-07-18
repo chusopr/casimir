@@ -2,6 +2,18 @@
 // Instance name
 define('INSTANCE_NAME', 'Cas.im/ir');
 
+// Meta tags
+define('TITLE', INSTANCE_NAME . ' - URL shortener');
+define('DESCRIPTION', 'Open source URL shortener');
+
+// If this installation is available through different URLs, you can
+// set them here so they can work as a cluster of different sites
+// Note: www.example.com and example.com will be treated as the same site
+//$sites = array(
+//  "example.com",
+//  "foo.bar/shortener"
+//);
+
 // MySQL connection
 define('MYSQL_HOST', 'localhost');
 define('MYSQL_USER', 'root');
@@ -14,17 +26,24 @@ define('USE_REWRITE', false);
 // restrict access?
 define('ACCESS_KEY', '');
 
+// Protect API access by password.
+// If reCAPTCHA is enabled, not setting an API_KEY will actually
+// disable API. Set it to blank string to allow API users to bypass
+// CAPTCHA validation (discouraged).
+// define('API_KEY', '');
+
 // Default API format ('text' or 'xml')
 define('DEFAULT_API_FORMAT', 'text');
 
-// Meta tags
-define('TITLE', INSTANCE_NAME . ' - URL shortener');
-define('DESCRIPTION', 'Open source URL shortener');
-
-// If this installation is available through different URLs, you can
-// set them here so they can work as a cluster of different sites
-// Note: www.example.com and example.com will be treated as the same site
-//$sites = array(
-//  "example.com",
-//  "foo.bar/shortener"
-//);
+// Use reCAPTCHA service to block spam bots
+// Please note that this will disable Casimir API
+// Also note that allow_url_fopen and json_encode are required
+define('RECAPTCHA', false);
+// Use SSL to validate reCAPTCHA response. It's the preferred method
+// since it's more secure to transmit your private key, but may require
+// additional PHP dependencies
+define('RECAPTCHA_HTTPS', true);
+// Your reCaptcha public key as provided by recaptcha.net
+define('RECAPTCHA_KEY', 'your-public-key');
+// Your reCaptcha secret key as provided by recaptcha.net
+define('RECAPTCHA_SECRET', 'your-private-key');

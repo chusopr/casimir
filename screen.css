@@ -13,28 +13,28 @@ body {
   margin: 0 auto;
   padding: 0;
   width: 750px;
-	background: url(img/casimir.png) right top no-repeat;
+  background: url(img/casimir.png) right top no-repeat;
 }
 
 h1 {
-	font-family: "Hoefler Text", "Bookman Antiqua", Palatino, "Utopia", "Times New Roman", Times, "New Century Schoolbook",  Georgia, "New York", serif;
-	font-size: 2.5em;
+  font-family: "Hoefler Text", "Bookman Antiqua", Palatino, "Utopia", "Times New Roman", Times, "New Century Schoolbook",  Georgia, "New York", serif;
+  font-size: 2.5em;
 }
 
 h1 a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 h1 a:link, h1 a:visited, h1 a:hover, h1 a:active {
-	color: #e33;
+  color: #e33;
 }
 
 h1 a:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 dt {
-	margin-top: 1em;
+  margin-top: 1em;
 }
 
 dd {
@@ -67,6 +67,10 @@ input[type=text] {
   background-image:         linear-gradient(to bottom, #F85E2A, #EF372E);
 }
 
+.error, .success {
+  padding-right: 128px;
+}
+
 .error {
   color: red;
 }
@@ -76,7 +80,7 @@ input[type=text] {
 }
 
 .center {
-	text-align: center;
+  text-align: center;
 }
 
 .tablinks {
@@ -102,10 +106,10 @@ footer {
 }
 
 footer nav {
-	margin: 1em 0;
-	border-top: 1px dotted #666;
+  margin: 1em 0;
+  border-top: 1px dotted #666;
   border-bottom: 1px dotted #666;
-	font-size: 0.8em;
+  font-size: 0.8em;
 }
 
 footer ul {
@@ -127,11 +131,11 @@ footer .poweredby {
 }
 
 #bookmarklet a {
-	padding: 2px 5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	background-color: #bbb;
-	border-top: solid 2px #ccc;
+  padding: 2px 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  background-color: #bbb;
+  border-top: solid 2px #ccc;
   border-right: solid 2px #aaa;
   border-bottom: solid 2px #aaa;
   border-left: solid 2px #ccc;
