@@ -1,7 +1,7 @@
 <?php
 require_once 'inc/conf.php';
 
-if (defined('API_KEY') && API_KEY != '' && $_GET['key'] != API_KEY)
+if (defined('API_KEY') && API_KEY != '' && (!array_key_exists("key", $_GET) || $_GET['key'] != API_KEY))
   die('Unauthorized: Invalid API Key');
 
 require_once 'inc/Casimir.php';
