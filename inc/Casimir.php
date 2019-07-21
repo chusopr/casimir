@@ -225,7 +225,7 @@ class Casimir {
         ?><input type="text" name="short" id="short" size="20" maxlength="255" value="<?php echo ($this->ok ? '' : (isset($_POST['short']) ? $_POST['short'] : (isset($_GET['short']) ? $_GET['short'] : ''))); ?>" /></dd>
         <dt></dt>
         <?php
-          if (RECAPTCHA)
+          if (defined("RECAPTCHA") && RECAPTCHA)
           {
           ?>
             <script src='https://www.google.com/recaptcha/api.js'></script>
@@ -271,7 +271,7 @@ class Casimir {
   
   function addUrl($long, $site, $short = '', $api = false) {
     // The CAPTCHA is the first one to be checked. This way, we save database queries
-    if (RECAPTCHA && $api==false)
+    if (defined("RECAPTCHA") && RECAPTCHA && $api==false)
     {
       if (!array_key_exists('g-recaptcha-response', $_POST))
         return array(false, '', _('Input provided by user is not valid'));
