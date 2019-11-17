@@ -383,7 +383,7 @@ class Casimir {
   }
 
   function getMostUsedSinceDate($since = '1970-01-01 00:00:01', $nb = 10) {
-    $query = 'SELECT s.site, s.short_url, COUNT(*) AS uses, c.long_url FROM casimir_stats s, casimir c WHERE s.short_url = c.short_url AND use_date >= "'.$this->db->real_escape_string($since).'" GROUP BY s.short_url ORDER BY uses DESC LIMIT 0,'.max(1,intval($nb));
+    $query = 'SELECT s.site, s.short_url, COUNT(*) AS uses, c.long_url FROM casimir_stats s, casimir c WHERE s.short_url = c.short_url AND use_date >= "'.$this->db->real_escape_string($since).'" GROUP BY s.short_url, s.site ORDER BY uses DESC LIMIT 0,'.max(1,intval($nb));
     if ($res = $this->db->query($query)) {
       $list = '<dl>';
       if (!empty($res))
