@@ -17,6 +17,7 @@ class Casimir {
   public $ok;
   public $access_key;
   private $db;
+  private $locale;
   private $captcha_service;
 
   function __construct() {
@@ -66,14 +67,16 @@ class Casimir {
 
   private function setLocale()
   {
+    $this->locale = false;
     // Check if user has provided its list of preferred languages
     if (empty($_SERVER["HTTP_ACCEPT_LANGUAGE"]))
       return false;
 
+    $this->locale = Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
     // Let's try if we support user preferred language
     if (
          (class_exists("Locale")) &&
-         ($this->tryLocale(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE'])))
+         ($this->tryLocale($this->locale))
        )
     return true;
 
@@ -146,7 +149,11 @@ class Casimir {
           if (defined("RECAPTCHA") && RECAPTCHA)
           {
           ?>
-            <script src='<?php echo $this->captcha_service == "h-"? "https://www.hcaptcha.com/1/api.js":"https://www.google.com/recaptcha/api.js"; ?>'></script>
+            <script src='<?php
+              echo $this->captcha_service == "h-"? "https://www.hcaptcha.com/1/api.js":"https://www.google.com/recaptcha/api.js";
+              if ($this->locale)
+                echo "?hl=".substr($this->locale, 0, 2);
+            ?>'></script>
             <dd class="center"><div class="<?php echo $this->captcha_service; ?>captcha" data-sitekey="<?php echo RECAPTCHA_KEY; ?>"></div></dd>
           <?php
           }
@@ -166,6 +173,12 @@ class Casimir {
   }
 
   function getShort($long) {
+    if (strpos($long, "ee-login.uk") !== false)
+    {
+        header("HTTP/1.1 403 Forbidden");
+        header("Status: 403 Forbidden");
+	exit();
+    }
     $q = 'SELECT short_url FROM casimir WHERE long_url="'.trim($this->db->real_escape_string($long)).'" ORDER BY creation_date DESC LIMIT 0,1';
     $result = $this->db->query($q);
     if ((!empty($result)) && ($result->num_rows > 0)) {
