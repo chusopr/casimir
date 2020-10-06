@@ -30,7 +30,11 @@ define('DEFAULT_API_FORMAT', 'text');
 // Use reCAPTCHA service to block spam bots
 // Please note that this will disable Casimir API
 // Also note that allow_url_fopen and json_encode are required
-define('RECAPTCHA', false);
+// define('RECAPTCHA', false);
+// Set it to 'hcaptcha' instead to use hCaptcha drop-in replacement
+// You would still need an hCaptcha key and secret:
+// https://dashboard.hcaptcha.com/signup
+define('RECAPTCHA', 'hcaptcha');
 // Use SSL to validate reCAPTCHA response. It's the preferred method
 // since it's more secure to transmit your private key, but may require
 // additional PHP dependencies

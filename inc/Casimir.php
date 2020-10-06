@@ -17,6 +17,7 @@ class Casimir {
   public $ok;
   public $access_key;
   private $db;
+  private $captcha_service;
 
   function __construct() {
     $this->version = '2.1';
@@ -35,6 +36,8 @@ class Casimir {
       $this->access_key = $_POST['access_key'];
     }
     $this->setLocale();
+    if (defined('RECAPTCHA') && RECAPTCHA)
+      $this->captcha_service = RECAPTCHA == 'hcaptcha'? 'h-':'g-re';
   }
 
   private function tryLocale($l)
@@ -143,8 +146,8 @@ class Casimir {
           if (defined("RECAPTCHA") && RECAPTCHA)
           {
           ?>
-            <script src='https://www.google.com/recaptcha/api.js'></script>
-            <dd class="center"><div class="g-recaptcha" data-sitekey="<?php echo RECAPTCHA_KEY; ?>"></div></dd>
+            <script src='<?php echo $this->captcha_service == "h-"? "https://www.hcaptcha.com/1/api.js":"https://www.google.com/recaptcha/api.js"; ?>'></script>
+            <dd class="center"><div class="<?php echo $this->captcha_service; ?>captcha" data-sitekey="<?php echo RECAPTCHA_KEY; ?>"></div></dd>
           <?php
           }
         ?>
@@ -188,10 +191,10 @@ class Casimir {
     // The CAPTCHA is the first one to be checked. This way, we save database queries
     if (defined("RECAPTCHA") && RECAPTCHA && $api==false)
     {
-      if (!array_key_exists('g-recaptcha-response', $_POST))
+      if (!array_key_exists("{$this->captcha_service}captcha-response", $_POST))
         return array(false, '', _('Input provided by user is not valid'));
-      $recaptcha_verify_url = (RECAPTCHA_HTTPS? 'https':'http') . '://www.google.com/recaptcha/api/siteverify';
-      $recaptcha_response = file_get_contents("$recaptcha_verify_url?secret=" . RECAPTCHA_SECRET . "&response={$_POST['g-recaptcha-response']}&remoteip={$_SERVER['REMOTE_ADDR']}");
+      $recaptcha_verify_url = (RECAPTCHA_HTTPS? 'https':'http') . '://' . ($this->captcha_service == 'h-'? 'hcaptcha.com/siteverify':'www.google.com/recaptcha/api/siteverify');
+      $recaptcha_response = file_get_contents("$recaptcha_verify_url?secret=" . RECAPTCHA_SECRET . "&response={$_POST["{$this->captcha_service}captcha-response"]}&remoteip={$_SERVER['REMOTE_ADDR']}");
       if (empty($recaptcha_response)) return array(false, '', _('An error occurred trying to validate CAPTCHA'));
       $recaptcha_answer = json_decode($recaptcha_response);
       if (!$recaptcha_answer->success)
