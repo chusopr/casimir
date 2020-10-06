@@ -1,5 +1,15 @@
 # Cas.im/ir v2.x
 
+## Cas.im/ir v2.2 (2020/10/06)
+
+- Add support to customize site title and description.
+- Disable API when CAPTCHA is enabled (fixed security flaw allowing using the API to bypass CAPTCHA).
+- Fixed code indentation.
+- Return 404 Not Found when a non-existent URL is requested.
+- Add support for hCaptcha.
+- Add support for CAPTCHA localization.
+- Fix indentation inconsistencies.
+
 ## Cas.im/ir v2.1 (2014/12/04)
 
 - New maintainer (#15)
