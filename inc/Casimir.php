@@ -102,6 +102,7 @@ class Casimir {
         header('Location: '.$location);
         exit;
       } else {
+        header('Status: 404 Not Found', true, 404);
         $this->ok = false;
         $this->msg = _('Sorry, but this short URL isn\'t in our database.');
       }
