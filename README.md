@@ -12,8 +12,6 @@ The development is [hosted on GitHub](http://github.com/chusopr/casimir), so you
 
 *Disclaimer:* I didn't try to follow any PHP golden development rules, it just had to work as I needed.
 
-Follow [Casim.ir on Twitter](http://twitter.com/cas_im) to be notified of new releases or ask for help.
-
 ## License
 
 See the included [LICENSE.md](https://github.com/chusopr/casimir/blob/master/LICENSE.md) file.
