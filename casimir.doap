@@ -11,7 +11,7 @@
 
   <shortdesc xml:lang="en">Yet Another URL Shortener</shortdesc> 
 
-  <description xml:lang="en">Casim.ir is a simple to install and use URL shortener, that let the user set the short URL he wants. It only needs PHP and MySQL to run.</description>
+  <description xml:lang="en">Casim.ir is a simple to install and use URL shortener, that let the user set the short URL he wants. It only needs PHP and a database to run.</description>
 
   <wiki rdf:resource="http://wiki.github.com/chusopr/casimir" />
 

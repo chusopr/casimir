@@ -22,8 +22,18 @@ class Casimir {
 
   function __construct() {
     $this->version = '2.2';
-    $this->db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
-    if ($this->db->connect_error) die(_('Could not connect to database'));
+    try {
+      if (defined('DB_URL')) {
+        $this->db = new PDO(DB_URL, username: defined('DB_USER')? DB_USER : null, password: defined('DB_PASSWORD')? DB_PASSWORD : null);
+      }
+      else {
+        if (defined('MYSQL_HOST'))
+	  error_log("Casimir configuration warning: The old MYSQL_* configuration settings are being used. Those settings are deprecated and may be removed in future versions. It's advised that you migrate your configuration to use DB_* settings. Check user/casimir-conf.php.example for an example");
+        $this->db = new PDO('mysql:host='.MYSQL_HOST.';dbname='.MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD);
+      }
+    } catch (PDOException $e) {
+      die(_('Could not connect to database'));
+    }
     $current_dir = dirname($_SERVER['PHP_SELF']);
     if ($current_dir == '/') $current_dir = '';
     $this->base_url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].$current_dir.'/';
@@ -97,7 +107,7 @@ class Casimir {
 
   function handleRequest($api) {
     if (preg_match("#^.*/\??([^=]+)$#i", $_SERVER['REQUEST_URI'], $regs)) {
-      $this->short = $this->db->real_escape_string($regs[1]);
+      $this->short = $regs[1];
     } else {
       $this->short = '';
     }
@@ -179,22 +189,22 @@ class Casimir {
         header("Status: 403 Forbidden");
 	exit();
     }
-    $q = 'SELECT short_url FROM casimir WHERE long_url="'.trim($this->db->real_escape_string($long)).'" ORDER BY creation_date DESC LIMIT 0,1';
-    $result = $this->db->query($q);
-    if ((!empty($result)) && ($result->num_rows > 0)) {
-      $row = $result->fetch_object();
-      return $row->short_url;
+    $q = $this->db->prepare('SELECT short_url FROM casimir WHERE long_url=:long_url ORDER BY creation_date DESC LIMIT 1 OFFSET 0');
+    $q->bindParam(':long_url', $long);
+    $q->execute(); // TODO: check return status
+    if ($q->rowCount() > 0) {
+      return $q->fetchObject()->short_url;
     } else {
       return false;
     }
   }
 
   function getLong($short) {
-    $q = 'SELECT long_url FROM casimir WHERE short_url="'.trim($this->db->real_escape_string($short)).'"';
-    $result = $this->db->query($q);
-    if ((!empty($result)) && ($result->num_rows == 1)) {
-      $row = $result->fetch_object();
-      return $row->long_url;
+    $q = $this->db->prepare('SELECT long_url FROM casimir WHERE short_url=:short_url');
+    $q->bindParam(':short_url', $short);
+    $q->execute(); // TODO: check return status
+    if ($q->rowCount() == 1) {
+      return $q->fetchObject()->long_url;
     } else {
       return false;
     }
@@ -227,17 +237,15 @@ class Casimir {
         return array(false, '', $error_message);
       }
     }
-    $long = trim($this->db->real_escape_string($long));
     if ($long == '') {
       return array(false, '', _('You must at least enter a long URL!'));
     } elseif (!preg_match("#^https?://#", $long)) {
       return array(false, '', _('Your URL must start with either "http://" or "https://"!'));
-    } elseif (substr($long, 0, strlen($this->base_url)) == $this->base_url) {
+    } elseif (substr($long, 0, strlen($this->base_url)) == $this->base_url) { // FIXME this only works with the same URL scheme
       return array(false, '', _('This is already a shorten URL!'));
     }
 
     $existing_short = $this->getShort($long);
-    $short = trim($this->db->real_escape_string($short));
     if ($short != '') {
       if (!preg_match("#^[a-zA-Z0-9_-]+$#", $short)) {
         return array(false, '', _('This short URL is not authorized!'));
@@ -255,12 +263,14 @@ class Casimir {
       case ($short == '' && !$existing_short):
         $short = $this->getRandomShort();
 
-        $query = 'INSERT INTO casimir (short_url, long_url, creation_date) VALUES ("'.$short.'", "'.$long.'", NOW())';
-        if ($this->db->query($query)) {
+        $query = $this->db->prepare('INSERT INTO casimir (short_url, long_url, creation_date) VALUES (:short_url, :long_url, NOW())');
+        $query->bindParam(':short_url', $short);
+        $query->bindParam(':long_url', $long);
+        if ($query->execute()) {
           $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
           return array(true, $short, _('Congratulations, you created this new short URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>');
         } else {
-          return array(false, $short, sprintf(_('Something went wrong: %s %s'), $this->db->errno, $this->db->error));
+          return array(false, $short, sprintf(_('Something went wrong: %s %s'), $query->errorCode(), $query->errorInfo()));
         }
         break;
       case ($short != '' && $existing_long && $long == $existing_long):
@@ -271,8 +281,10 @@ class Casimir {
         return array(false, $short, _('This short URL already exists and is associated with this other long URL:') . '<br /><a href="'.$existing_long.'">'.$existing_long.'</a>');
         break;
       case ($short != '' && !$existing_short):
-        $query = 'INSERT INTO casimir (short_url, long_url, creation_date) VALUES ("'.$short.'", "'.$long.'", NOW())';
-        if ($this->db->query($query)) {
+        $query = $this->db->prepare('INSERT INTO casimir (short_url, long_url, creation_date) VALUES (:short_url, :long_url, NOW())');
+        $query->bindParam(':short_url', $short);
+        $query->bindParam(':long_url', $long);
+        if ($query->execute()) {
           $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
           return array(true, $short, _('Congratulations, you created this new short URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>');
         } else {
@@ -280,9 +292,11 @@ class Casimir {
         }
         break;
       case ($short != '' && !$existing_long):
-        // Same as previous???
-        $query = 'INSERT INTO casimir (short_url, long_url, creation_date) VALUES ("'.$short.'", "'.$long.'", NOW())';
-        if ($this->db->query($query)) {
+        // TODO Same as previous???
+        $query = $this->db->prepare('INSERT INTO casimir (short_url, long_url, creation_date) VALUES (:short_url, :long_url, NOW())');
+        $query->bindParam(':short_url', $short);
+        $query->bindParam(':long_url', $long);
+        if ($query->execute()) {
           $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
           return array(true, $short, _('Congratulations, you created this new short URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>');
         } else {
@@ -304,24 +318,28 @@ class Casimir {
   }
 
   function updateUses($short) {
-    $query = 'INSERT INTO casimir_stats (short_url, use_date) VALUES ("'.trim($this->db->real_escape_string($short)).'", NOW())';
-    $this->db->query($query);
-    $query = 'UPDATE casimir SET last_use_date=NOW(), uses=uses+1 WHERE short_url="'.trim($this->db->real_escape_string($short)).'"';
-    return ($this->db->query($query) !== false);
+    $query = $this->db->prepare('INSERT INTO casimir_stats (short_url, use_date) VALUES (:short_url, NOW())');
+    $query->bindParam(':short_url', $short);
+    $query->execute();
+    $query = $this->db->prepare('UPDATE casimir SET last_use_date=NOW(), uses=uses+1 WHERE short_url=:short_url');
+    $query->bindParam(':short_url', $short);
+    return ($query->execute());
   }
 
   function getMostUsedSinceDate($since = '1970-01-01 00:00:01', $nb = 10) {
-    $query = 'SELECT s.short_url, COUNT(*) AS uses, c.long_url FROM casimir_stats s, casimir c WHERE s.short_url = c.short_url AND use_date >= "'.$this->db->real_escape_string($since).'" GROUP BY s.short_url ORDER BY uses DESC LIMIT 0,'.max(1,intval($nb));
-    if ($res = $this->db->query($query)) {
+    $query = $this->db->prepare('SELECT s.short_url, COUNT(*) AS uses, c.long_url FROM casimir_stats s, casimir c WHERE s.short_url = c.short_url AND use_date >= :use_date GROUP BY s.short_url, c.long_url ORDER BY uses DESC LIMIT '.intval($nb).' OFFSET 0');
+    $query->bindParam(':use_date', $since);
+    try {
+      $query->execute();
       $list = '<dl>';
-      if (!empty($res))
-        while ($url = $res->fetch_object()) {
+      if ($query->rowCount() > 0)
+        while ($url = $query->fetchObject()) {
           $list .= '<dt> <a href="'.$url->short_url.'" rel="nofollow" >'.$url->short_url.'</a> visited '.$url->uses.' time(s) </dt>';
           $list .= '<dd><a href="'.$url->long_url.'">'.htmlspecialchars($url->long_url).'</a></dd>';
         }
       $list .= '</dl>';
       return $list;
-    } else {
+    } catch (PDOException $e) {
       return false;
     }
   }

@@ -6,11 +6,16 @@ define('INSTANCE_NAME', 'Cas.im/ir');
 define('TITLE', INSTANCE_NAME . ' - URL shortener');
 define('DESCRIPTION', 'Open source URL shortener');
 
-// MySQL connection
-define('MYSQL_HOST', 'localhost');
-define('MYSQL_USER', 'root');
-define('MYSQL_PASSWORD', '');
-define('MYSQL_DATABASE', 'casimir');
+// DB connection
+define('DB_URL', 'mysql:host=localhost;dbname=casimir_db');
+define('DB_USER', 'casimir_user');
+define('DB_PASSWORD', 'secret');
+// Only MySQL and PostgreSQL were tested, but theoretically, any database
+// supported by your PHP PDO installation should work, like SQLite, Oracle, SQL Server, etc.
+// define('DB_URL', 'pgsql:host=localhost;dbname=casimir_db');
+// define('DB_URL', 'sqlite:/var/lib/casimir.db');
+// Check PHP documentation for PDO DSNs for more possible formats for the database URL:
+// https://www.php.net/manual/pdo.construct.php
 
 // use mod_rewrite?
 define('USE_REWRITE', false);
