@@ -26,7 +26,7 @@ class Casimir {
     if ($this->db->connect_error) die(_('Could not connect to database'));
     $current_dir = dirname($_SERVER['PHP_SELF']);
     if ($current_dir == '/') $current_dir = '';
-    $this->base_url = 'http://'.$_SERVER['SERVER_NAME'].$current_dir.'/';
+    $this->base_url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].$current_dir.'/';
     $this->short = '';
     $this->msg = '';
     $this->ok = true;
