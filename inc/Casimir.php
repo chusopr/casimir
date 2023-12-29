@@ -53,7 +53,7 @@ class Casimir {
     }
     $this->setLocale();
     if (defined('RECAPTCHA') && RECAPTCHA)
-      $this->captcha_service = RECAPTCHA == 'hcaptcha'? 'h-':'g-re';
+      $this->captcha_service = RECAPTCHA === 'hcaptcha'? 'h-':'g-re';
   }
 
   private function tryLocale($l)
