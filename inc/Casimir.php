@@ -16,6 +16,7 @@ class Casimir {
   public $msg;
   public $ok;
   public $access_key;
+  public $status = 200;
   private $db;
   private $locale;
   private $captcha_service;
@@ -28,11 +29,15 @@ class Casimir {
       }
       else {
         if (defined('MYSQL_HOST'))
-	  error_log("Casimir configuration warning: The old MYSQL_* configuration settings are being used. Those settings are deprecated and may be removed in future versions. It's advised that you migrate your configuration to use DB_* settings. Check user/casimir-conf.php.example for an example");
+          error_log("Casimir configuration warning: The old MYSQL_* configuration settings are being used. Those settings are deprecated and may be removed in future versions. It's advised that you migrate your configuration to use DB_* settings. Check user/casimir-conf.php.example for an example");
         $this->db = new PDO('mysql:host='.MYSQL_HOST.';dbname='.MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD);
       }
+      // Make sure exceptions are not thrown for SQL errors
+      $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
     } catch (PDOException $e) {
-      die(_('Could not connect to database'));
+      $this->status = 500;
+      $this->ok = false;
+      $this->msg = _('Unable to connect to the database');
     }
     $current_dir = dirname($_SERVER['PHP_SELF']);
     if ($current_dir == '/') $current_dir = '';
@@ -117,29 +122,31 @@ class Casimir {
         header('Status: 301 Moved Permanently', false, 301);
         header('Location: '.$location);
         exit;
+      } elseif ($location === NULL) {
+        $this->status = 500;
+        $this->ok = false;
+        $this->msg = _('Internal error finding URL.');
       } else {
-        header('Status: 404 Not Found', true, 404);
+        $this->status = 404;
         $this->ok = false;
         $this->msg = _('Sorry, but this short URL isn\'t in our database.');
       }
     }
 
     if (defined('ACCESS_KEY') && ACCESS_KEY != '' && ACCESS_KEY != $this->access_key) {
+      $this->status = 401;
       $this->ok = false;
       $this->msg = _('This Casimir instance is protected, you need an access key!');
     } else {
       if (isset($_POST['long'])) {
-        list($this->ok, $this->short, $this->msg) = $this->addUrl($_POST['long'], isset($_POST['short']) && !is_null($_POST['short']) && $_POST['short'] != 'null' ? $_POST['short'] : '', $api);
+        list($this->ok, $this->short, $this->msg, $this->status) = $this->addUrl($_POST['long'], isset($_POST['short']) && !is_null($_POST['short']) && $_POST['short'] != 'null' ? $_POST['short'] : '', $api);
       } elseif (isset($_GET['long'])) {
-        list($this->ok, $this->short, $this->msg) = $this->addUrl($_GET['long'], isset($_GET['short']) && !is_null($_GET['short']) && $_GET['short'] != 'null' ? $_GET['short'] : '', $api);
+        list($this->ok, $this->short, $this->msg, $this->status) = $this->addUrl($_GET['long'], isset($_GET['short']) && !is_null($_GET['short']) && $_GET['short'] != 'null' ? $_GET['short'] : '', $api);
       }
     }
   }
 
   function showForm() {
-    if ($this->msg != '') {
-      echo '<p class="'.($this->ok ? 'success' : 'error').'">'.$this->msg.'</p>';
-    }
     ?>
     <form action="<?php echo $this->base_url; ?>" method="post">
       <?php
@@ -183,15 +190,12 @@ class Casimir {
   }
 
   function getShort($long) {
-    if (strpos($long, "ee-login.uk") !== false)
-    {
-        header("HTTP/1.1 403 Forbidden");
-        header("Status: 403 Forbidden");
-	exit();
-    }
     $q = $this->db->prepare('SELECT short_url FROM casimir WHERE long_url=:long_url ORDER BY creation_date DESC LIMIT 1 OFFSET 0');
     $q->bindParam(':long_url', $long);
-    $q->execute(); // TODO: check return status
+    if (!$q->execute()) {
+      $this->msg = _("Internal error checking for duplicates");
+      return NULL;
+    }
     if ($q->rowCount() > 0) {
       return $q->fetchObject()->short_url;
     } else {
@@ -202,7 +206,10 @@ class Casimir {
   function getLong($short) {
     $q = $this->db->prepare('SELECT long_url FROM casimir WHERE short_url=:short_url');
     $q->bindParam(':short_url', $short);
-    $q->execute(); // TODO: check return status
+    if (!$q->execute()) {
+      $this->msg = _("Internal error checking for short URL availability");
+      return NULL;
+    }
     if ($q->rowCount() == 1) {
       return $q->fetchObject()->long_url;
     } else {
@@ -215,10 +222,10 @@ class Casimir {
     if (defined("RECAPTCHA") && RECAPTCHA && $api==false)
     {
       if (!array_key_exists("{$this->captcha_service}captcha-response", $_POST))
-        return array(false, '', _('Input provided by user is not valid'));
+        return array(false, '', _('Input provided by user is not valid'), 400);
       $recaptcha_verify_url = (RECAPTCHA_HTTPS? 'https':'http') . '://' . ($this->captcha_service == 'h-'? 'hcaptcha.com/siteverify':'www.google.com/recaptcha/api/siteverify');
       $recaptcha_response = file_get_contents("$recaptcha_verify_url?secret=" . RECAPTCHA_SECRET . "&response={$_POST["{$this->captcha_service}captcha-response"]}&remoteip={$_SERVER['REMOTE_ADDR']}");
-      if (empty($recaptcha_response)) return array(false, '', _('An error occurred trying to validate CAPTCHA'));
+      if (empty($recaptcha_response)) return array(false, '', _('An error occurred trying to validate CAPTCHA'), 500);
       $recaptcha_answer = json_decode($recaptcha_response);
       if (!$recaptcha_answer->success)
       {
@@ -227,38 +234,44 @@ class Casimir {
         {
           case 'missing-input-secret':
           case 'invalid-input-secret':
+            $this->status = 500;
             $error_message = _('reCAPTCHA account is not correctly configured for this site');
             break;
           case 'missing-input-response':
           case 'invalid-input-response':
+            $this->status = 400;
             $error_message = _('Input provided by user is not valid');
             break;
         }
-        return array(false, '', $error_message);
+        return array(false, '', $error_message, $this->status);
       }
     }
-    if ($long == '') {
-      return array(false, '', _('You must at least enter a long URL!'));
-    } elseif (!preg_match("#^https?://#", $long)) {
-      return array(false, '', _('Your URL must start with either "http://" or "https://"!'));
-    } elseif (substr($long, 0, strlen($this->base_url)) == $this->base_url) { // FIXME this only works with the same URL scheme
-      return array(false, '', _('This is already a shorten URL!'));
-    }
+    if ($long == '')
+      return array(false, '', _('You must at least enter a long URL!'), 400);
+    elseif (!preg_match("#^https?://#", $long))
+      return array(false, '', _('Your URL must start with either "http://" or "https://"!'), 400);
+    elseif (substr($long, 0, strlen($this->base_url)) == $this->base_url) // FIXME this only works with the same URL scheme
+      return array(false, '', _('This is already a shorten URL!'), 400);
 
     $existing_short = $this->getShort($long);
+    if ($existing_short === NULL)
+      return array(false, '', $this->msg, 500);
+
     if ($short != '') {
-      if (!preg_match("#^[a-zA-Z0-9_-]+$#", $short)) {
-        return array(false, '', _('This short URL is not authorized!'));
-      } elseif (strlen($short) > 50) {
-        return array(false, '', _('This short URL is not short enough! Hint: 50 chars allowed...'));
-      }
+      if (!preg_match("#^[a-zA-Z0-9_-]+$#", $short))
+        return array(false, '', _('This short URL is not allowed!'), 403);
+      elseif (strlen($short) > 50)
+        return array(false, '', _('This short URL is not short enough! Hint: 50 chars allowed...'), 400);
     }
     $existing_long = $this->getLong($short);
+    if ($existing_long === NULL)
+      return array(false, '', $this->msg, 500);
+
     switch(true) {
       case ($short == '' && $existing_short):
         $short = $existing_short;
         $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
-        return array(true, $short, _('A short URL already exists for this long URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>');
+        return array(true, $short, _('A short URL already exists for this long URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>', 200);
         break;
       case ($short == '' && !$existing_short):
         $short = $this->getRandomShort();
@@ -268,17 +281,16 @@ class Casimir {
         $query->bindParam(':long_url', $long);
         if ($query->execute()) {
           $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
-          return array(true, $short, _('Congratulations, you created this new short URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>');
-        } else {
-          return array(false, $short, sprintf(_('Something went wrong: %s %s'), $query->errorCode(), $query->errorInfo()));
-        }
+          return array(true, $short, _('Congratulations, you created this new short URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>', 200);
+        } else
+          return array(false, $short, _('Internal error creating your short URL'), 500);
         break;
       case ($short != '' && $existing_long && $long == $existing_long):
         $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
-        return array(true, $short, _('This short URL already exists and is associated with the same long URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>');
+        return array(true, $short, _('This short URL already exists and is associated with the same long URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>', 200);
         break;
       case ($short != '' && $existing_long && $existing_long != $long):
-        return array(false, $short, _('This short URL already exists and is associated with this other long URL:') . '<br /><a href="'.$existing_long.'">'.$existing_long.'</a>');
+        return array(false, $short, _('This short URL already exists and is associated with this other long URL:') . '<br /><a href="'.$existing_long.'">'.$existing_long.'</a>', 403);
         break;
       case ($short != '' && !$existing_short):
         $query = $this->db->prepare('INSERT INTO casimir (short_url, long_url, creation_date) VALUES (:short_url, :long_url, NOW())');
@@ -286,10 +298,9 @@ class Casimir {
         $query->bindParam(':long_url', $long);
         if ($query->execute()) {
           $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
-          return array(true, $short, _('Congratulations, you created this new short URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>');
-        } else {
-          return array(false, $short, sprintf(_('Something went wrong: %s %s'), $this->db->errno, $this->db->error));
-        }
+          return array(true, $short, _('Congratulations, you created this new short URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>', 200);
+        } else
+          return array(false, $short, _('Internal error creating your short URL'), 500);
         break;
       case ($short != '' && !$existing_long):
         // TODO Same as previous???
@@ -298,13 +309,12 @@ class Casimir {
         $query->bindParam(':long_url', $long);
         if ($query->execute()) {
           $short_url = $this->base_url.(USE_REWRITE ? '' : '?').$short;
-          return array(true, $short, _('Congratulations, you created this new short URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>');
-        } else {
-          return array(false, $short, sprintf(_('Something went wrong: %s %s'), $this->db->errno, $this->db->error));
-        }
+          return array(true, $short, _('Congratulations, you created this new short URL:') . '<br /><a href="'.$short_url.'">'.$short_url.'</a>', 200);
+        } else
+          return array(false, $short, _('Internal error creating your short URL'), 500);
          break;
      }
-     return array(false, '', _('This should never happen...'));
+     return array(false, '', _('This should never happen...'), 500);
   }
 
   function getRandomShort() {
@@ -320,17 +330,19 @@ class Casimir {
   function updateUses($short) {
     $query = $this->db->prepare('INSERT INTO casimir_stats (short_url, use_date) VALUES (:short_url, NOW())');
     $query->bindParam(':short_url', $short);
-    $query->execute();
+    if (!$query->execute())
+      error_log(sprintf(_('Unable to update stats for URL %s: %s'), $this->short_url, $this->db->errorInfo()[2]));
     $query = $this->db->prepare('UPDATE casimir SET last_use_date=NOW(), uses=uses+1 WHERE short_url=:short_url');
     $query->bindParam(':short_url', $short);
-    return ($query->execute());
+    if (!$query->execute())
+      error_log(sprintf(_('Unable to update use count for URL %s: %s'), $this->short_url, $this->db->errorInfo()[2]));
   }
 
   function getMostUsedSinceDate($since = '1970-01-01 00:00:01', $nb = 10) {
     $query = $this->db->prepare('SELECT s.short_url, COUNT(*) AS uses, c.long_url FROM casimir_stats s, casimir c WHERE s.short_url = c.short_url AND use_date >= :use_date GROUP BY s.short_url, c.long_url ORDER BY uses DESC LIMIT '.intval($nb).' OFFSET 0');
     $query->bindParam(':use_date', $since);
-    try {
-      $query->execute();
+    if ($query->execute())
+    {
       $list = '<dl>';
       if ($query->rowCount() > 0)
         while ($url = $query->fetchObject()) {
@@ -339,7 +351,10 @@ class Casimir {
         }
       $list .= '</dl>';
       return $list;
-    } catch (PDOException $e) {
+    } else {
+      $this->ok = false;
+      $this->status = 500;
+      $this->msg = _('Internal error while getting latest most used URLs');
       return false;
     }
   }

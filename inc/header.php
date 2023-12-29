@@ -1,3 +1,9 @@
+<?php
+  if (!in_array($casimir->status, array(NULL, 200))) {
+    header("HTTP/1.1 ".$casimir->status);
+    header("Status: ".$casimir->status);
+  }
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -23,3 +29,7 @@
 <body onload="document.getElementById('long').focus();">
   <div id="main">
     <h1><a href="<?php echo $casimir->base_url; ?>"><?php echo INSTANCE_NAME; ?></a></h1>
+    <?php
+      if ($this->msg != '') {
+        echo '<p class="'.($this->ok ? 'success' : 'error').'">'.$this->msg.'</p>';
+      }
